@@ -18,7 +18,7 @@ export default function ViewerToolbar({
           onClick={() => onToolChange(tool)}
           className={`rounded px-2 py-1 text-xs font-medium transition ${
             activeTool === tool
-              ? "bg-slate-900 text-white"
+              ? "bg-[color:var(--primary)] text-white"
               : "border border-slate-300 bg-white text-slate-700 hover:bg-slate-100"
           }`}
         >

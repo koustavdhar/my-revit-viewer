@@ -43,7 +43,7 @@ export default function AppSidebar() {
               className={[
                 "block rounded-md px-3 py-2",
                 active
-                  ? "bg-slate-900 text-white"
+                  ? "border border-[color:var(--primary-100)] bg-[color:var(--primary-50)] text-slate-900"
                   : "text-slate-700 hover:bg-slate-100",
               ].join(" ")}
             >

@@ -192,7 +192,7 @@ export default function ModelTreePanel({
                               onClick={() => onSelectElement(element.id)}
                               className={`w-full rounded px-1.5 py-1 text-left text-xs transition ${
                                 selectedElementId === element.id
-                                  ? "bg-slate-900 text-white"
+                                  ? "bg-[color:var(--primary)] text-white"
                                   : "text-slate-600 hover:bg-slate-100"
                               }`}
                             >

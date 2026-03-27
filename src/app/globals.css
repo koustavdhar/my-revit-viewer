@@ -7,10 +7,19 @@
   --border: #dbe2ea;
   --text: #0f172a;
   --text-muted: #5b6776;
-  --primary: #1d4ed8;
-  --success: #0f766e;
-  --warning: #b45309;
-  --error: #be123c;
+  /* Refined vibrant enterprise palette (controlled use). */
+  --primary: #4f46e5; /* indigo-600 */
+  --primary-700: #4338ca;
+  --primary-50: #eef2ff;
+  --primary-100: #e0e7ff;
+  --accent: #0e7490; /* cyan-700 (muted) */
+  --accent-50: #ecfeff;
+  --success: #059669; /* emerald-600 */
+  --success-50: #ecfdf5;
+  --warning: #d97706; /* amber-600 */
+  --warning-50: #fffbeb;
+  --error: #e11d48; /* rose-600 */
+  --error-50: #fff1f2;
 }
 
 @theme inline {
@@ -28,10 +37,18 @@
     --border: #1f2937;
     --text: #e2e8f0;
     --text-muted: #94a3b8;
-    --primary: #60a5fa;
-    --success: #2dd4bf;
-    --warning: #fbbf24;
-    --error: #fb7185;
+    --primary: #818cf8; /* indigo-400 */
+    --primary-700: #6366f1;
+    --primary-50: #0b1220;
+    --primary-100: #111827;
+    --accent: #67e8f9; /* cyan-300 (less neon) */
+    --accent-50: #0b1220;
+    --success: #34d399; /* emerald-400 */
+    --success-50: #0b1220;
+    --warning: #fbbf24; /* amber-400 */
+    --warning-50: #0b1220;
+    --error: #fb7185; /* rose-400 */
+    --error-50: #0b1220;
   }
 }
 
@@ -97,4 +114,37 @@ body {
 
 .label-table {
   @apply text-xs uppercase tracking-[0.1em] text-slate-500;
+}
+
+.accent-border {
+  border-left: 3px solid var(--primary);
+}
+
+.surface-primary {
+  background: var(--primary-50);
+  border-color: var(--primary-100);
+}
+
+.surface-accent {
+  background: var(--accent-50);
+  border-color: color-mix(in srgb, var(--accent) 20%, white);
+}
+
+.surface-success {
+  background: var(--success-50);
+  border-color: color-mix(in srgb, var(--success) 20%, white);
+}
+
+.surface-warning {
+  background: var(--warning-50);
+  border-color: color-mix(in srgb, var(--warning) 20%, white);
+}
+
+.surface-error {
+  background: var(--error-50);
+  border-color: color-mix(in srgb, var(--error) 20%, white);
+}
+
+.header-gradient-accent {
+  background: linear-gradient(90deg, var(--primary), var(--accent));
 }

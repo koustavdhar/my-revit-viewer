@@ -99,7 +99,10 @@ export default function DashboardPage() {
             {isLoading ? (
               <Skeleton className="mt-2 h-8 w-16" />
             ) : (
-              <p className="mt-1 text-2xl font-semibold text-slate-900">{totalProjects}</p>
+              <div className="mt-1 flex items-end justify-between gap-3">
+                <p className="text-2xl font-semibold text-[color:var(--primary)]">{totalProjects}</p>
+                <span className="h-2 w-2 rounded-full bg-[color:var(--primary)]" aria-hidden="true" />
+              </div>
             )}
           </Card>
           <Card className="p-4">
@@ -107,7 +110,10 @@ export default function DashboardPage() {
             {isLoading ? (
               <Skeleton className="mt-2 h-8 w-16" />
             ) : (
-              <p className="mt-1 text-2xl font-semibold text-slate-900">{activeProjects}</p>
+              <div className="mt-1 flex items-end justify-between gap-3">
+                <p className="text-2xl font-semibold text-[color:var(--success)]">{activeProjects}</p>
+                <span className="h-2 w-2 rounded-full bg-[color:var(--success)]" aria-hidden="true" />
+              </div>
             )}
           </Card>
           <Card className="p-4">
@@ -115,7 +121,10 @@ export default function DashboardPage() {
             {isLoading ? (
               <Skeleton className="mt-2 h-8 w-28" />
             ) : (
-              <p className="mt-1 text-2xl font-semibold text-slate-900">{latestUpdate}</p>
+              <div className="mt-1 flex items-end justify-between gap-3">
+                <p className="text-2xl font-semibold text-slate-900">{latestUpdate}</p>
+                <span className="h-2 w-2 rounded-full bg-[color:var(--accent)]" aria-hidden="true" />
+              </div>
             )}
           </Card>
         </div>

@@ -35,6 +35,7 @@ export default function RootLayout({
 
           <div className="flex min-w-0 flex-col">
             <header className="sticky top-0 z-20 border-b border-slate-200 bg-white/95 backdrop-blur">
+              <div className="header-gradient-accent h-0.5 w-full" />
               <div className="app-shell flex items-center justify-between py-3">
                 <div>
                   <p className="label-eyebrow">Enterprise Workspace</p>

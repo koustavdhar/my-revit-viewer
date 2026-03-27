@@ -7,10 +7,14 @@ type BadgeProps = {
 };
 
 function variantClass(variant: BadgeVariant) {
-  if (variant === "primary") return "bg-sky-50 text-sky-700 border-sky-200";
-  if (variant === "success") return "bg-emerald-50 text-emerald-700 border-emerald-200";
-  if (variant === "warning") return "bg-amber-50 text-amber-700 border-amber-200";
-  if (variant === "error") return "bg-rose-50 text-rose-700 border-rose-200";
+  if (variant === "primary")
+    return "bg-[color:var(--primary-50)] text-[color:var(--primary)] border-[color:var(--primary-100)]";
+  if (variant === "success")
+    return "bg-[color:var(--success-50)] text-[color:var(--success)] border-[color:color-mix(in_srgb,var(--success)_20%,white)]";
+  if (variant === "warning")
+    return "bg-[color:var(--warning-50)] text-[color:var(--warning)] border-[color:color-mix(in_srgb,var(--warning)_20%,white)]";
+  if (variant === "error")
+    return "bg-[color:var(--error-50)] text-[color:var(--error)] border-[color:color-mix(in_srgb,var(--error)_20%,white)]";
   return "bg-slate-100 text-slate-700 border-slate-200";
 }
 

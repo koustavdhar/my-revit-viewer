@@ -16,7 +16,11 @@ type BaseProps = {
 
 function getVariantClass(variant: ButtonVariant) {
   if (variant === "primary") {
-    return "bg-slate-900 text-white border border-slate-900 hover:bg-slate-800 focus-visible:ring-slate-400";
+    return [
+      "text-white border border-transparent",
+      "bg-[color:var(--primary)] hover:bg-[color:var(--primary-700)]",
+      "focus-visible:ring-[color:var(--primary)]",
+    ].join(" ");
   }
   if (variant === "secondary") {
     return "bg-white text-slate-700 border border-slate-300 hover:bg-slate-50 focus-visible:ring-slate-300";
