@@ -7,6 +7,7 @@ import ModelTreePanel from "@/features/viewer/components/panels/model-tree-panel
 import ProjectInfoPanel from "@/features/viewer/components/panels/project-info-panel";
 import PropertiesPanel from "@/features/viewer/components/panels/properties-panel";
 import SpeckleViewerCanvas, {
+  SpeckleAppIframeEmbed,
   ViewerPreviewFallback,
 } from "@/features/viewer/components/canvas/speckle-viewer-canvas";
 import { useViewerProvider } from "@/features/viewer/providers/use-viewer-provider";
@@ -45,10 +46,14 @@ export default function ModelViewerShell({ project }: ModelViewerShellProps) {
   const trySpeckle = shouldLoadSpeckleEmbed(project);
   const modelUrl = project.modelUrl?.trim() ?? "";
   const hasModelLink = modelUrl.length > 0;
+  const isSpeckleAppProjectModelUrl =
+    modelUrl.includes("app.speckle.systems/projects/") &&
+    modelUrl.includes("/models/");
 
   const statusBadges = useMemo(() => {
     const connected =
-      hasModelLink && (integrationState.status === "embedded" || !trySpeckle);
+      hasModelLink &&
+      (integrationState.status === "embedded" || !trySpeckle || isSpeckleAppProjectModelUrl);
     return [
       {
         label: connected ? "Connected" : "Disconnected",
@@ -65,7 +70,7 @@ export default function ModelViewerShell({ project }: ModelViewerShellProps) {
         className: "bg-blue-50 text-blue-700 ring-blue-200",
       },
     ];
-  }, [hasModelLink, integrationState.status, trySpeckle]);
+  }, [hasModelLink, integrationState.status, trySpeckle, isSpeckleAppProjectModelUrl]);
 
   const handleStatusChange = useCallback(
     (status: "loading" | "embedded" | "fallback", reason?: string | null) => {
@@ -177,7 +182,9 @@ export default function ModelViewerShell({ project }: ModelViewerShellProps) {
             {/* Speckle: real WebGL viewer via @speckle/viewer when URL + workflow match. */}
             {/* Toolbar actions are still local dummy state until wired to viewer.getExtension / camera APIs. */}
             <div className="mt-3">
-              {trySpeckle && modelUrl ? (
+              {isSpeckleAppProjectModelUrl ? (
+                <SpeckleAppIframeEmbed modelUrl={modelUrl} />
+              ) : trySpeckle && modelUrl ? (
                 <SpeckleViewerCanvas
                   modelUrl={modelUrl}
                   authToken={speckleToken}

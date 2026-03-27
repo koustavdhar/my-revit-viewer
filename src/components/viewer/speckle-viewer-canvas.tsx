@@ -98,8 +98,10 @@ export default function SpeckleViewerCanvas({
       } catch (err) {
         console.error("[Speckle viewer]", err);
         if (!cancelled) {
-          const reason =
-            err instanceof Error ? err.message : "Viewer could not load this model.";
+          const reason = getFriendlySpeckleErrorMessage(err, {
+            modelUrl,
+            hasToken: !!authToken,
+          });
           setFallbackReason(reason);
           setState("fallback");
           statusCallbackRef.current?.("fallback", reason);
@@ -152,6 +154,57 @@ export default function SpeckleViewerCanvas({
           </div>
         </div>
       )}
+    </div>
+  );
+}
+
+function getFriendlySpeckleErrorMessage(
+  err: unknown,
+  context: { modelUrl: string; hasToken: boolean },
+) {
+  const base = err instanceof Error ? err.message : "Viewer could not load this model.";
+  const lower = base.toLowerCase();
+  const isSpeckleAppUrl = context.modelUrl.includes("app.speckle.systems/projects/");
+
+  // Common case for private or restricted models from the new Speckle app URL format.
+  if (lower.includes("query failed") || lower.includes("could not get object urls")) {
+    if (isSpeckleAppUrl && !context.hasToken) {
+      return "Speckle could not resolve this model for embedding (Query failed). This is commonly a permissions issue. Add NEXT_PUBLIC_SPECKLE_TOKEN in .env.local (or Vercel env) and try Refresh viewer.";
+    }
+    return "Speckle could not resolve this model for embedding (Query failed). The link may be private, permission-restricted, or not directly embeddable yet. Use Open in source platform, or provide a token and retry.";
+  }
+
+  if (lower.includes("401") || lower.includes("403") || lower.includes("unauthorized")) {
+    return "Access denied while loading model. Check your Speckle permissions and token configuration.";
+  }
+
+  return base;
+}
+
+export function SpeckleAppIframeEmbed({ modelUrl }: { modelUrl: string }) {
+  return (
+    <div className="flex min-h-[580px] flex-col overflow-hidden rounded-xl border border-slate-200 bg-white">
+      <div className="flex items-center justify-between border-b border-slate-200 bg-slate-50 px-3 py-2">
+        <p className="text-xs font-medium text-slate-600">
+          Speckle app embed mode (project/model URL)
+        </p>
+        <a
+          href={modelUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-xs font-medium text-blue-700 underline"
+        >
+          Open in new tab
+        </a>
+      </div>
+
+      {/* For app.speckle.systems model links, iframe preview is the most stable beginner path. */}
+      <iframe
+        title="Speckle model preview"
+        src={modelUrl}
+        className="h-[580px] w-full bg-white"
+        loading="lazy"
+      />
     </div>
   );
 }
