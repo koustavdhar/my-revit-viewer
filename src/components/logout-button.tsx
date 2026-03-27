@@ -7,7 +7,7 @@ export default function LogoutButton() {
   const router = useRouter();
 
   function handleLogout() {
-    document.cookie = "demo_auth=; path=/; max-age=0";
+    document.cookie = "demo_auth=; path=/; max-age=0; samesite=lax";
     router.push("/login");
   }
 

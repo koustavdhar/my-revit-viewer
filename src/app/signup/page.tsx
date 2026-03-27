@@ -49,7 +49,7 @@ export default function SignupPage() {
     event.preventDefault();
     if (!validate()) return;
 
-    document.cookie = "demo_auth=1; path=/";
+    document.cookie = "demo_auth=1; path=/; max-age=2592000; samesite=lax";
     router.push("/dashboard");
   }
 
