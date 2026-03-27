@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Button, Card, PageContainer } from "@/components/ui";
 
 export default function Home() {
   const features = [
@@ -26,12 +26,10 @@ export default function Home() {
 
   return (
     <main className="flex flex-1 flex-col">
-      <section className="app-shell py-14 md:py-18">
-        <div className="grid gap-8 rounded-3xl border border-slate-200 bg-gradient-to-b from-white to-slate-50 p-8 shadow-sm md:grid-cols-[1.2fr_0.8fr] md:p-12">
+      <PageContainer className="py-14 md:py-18">
+        <div className="grid gap-8 rounded-2xl border border-slate-200 bg-gradient-to-b from-white to-slate-50 p-8 md:grid-cols-[1.2fr_0.8fr] md:p-12">
           <div>
-            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
-              AEC SaaS Platform
-            </p>
+            <p className="label-eyebrow mb-3">AEC SaaS Platform</p>
             <h1 className="section-title max-w-2xl">
               Premium model review experience for Revit projects
             </h1>
@@ -40,18 +38,16 @@ export default function Home() {
               review project context, and inspect element data without editing risk.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
-              <Link href="/login" className="btn-primary px-5">
+              <Button href="/login" variant="primary" className="px-5">
                 Start Demo
-              </Link>
-              <Link href="/dashboard" className="btn-secondary px-5">
+              </Button>
+              <Button href="/dashboard" variant="secondary" className="px-5">
                 Explore Dashboard
-              </Link>
+              </Button>
             </div>
           </div>
-          <div className="panel p-6">
-            <p className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
-              Version 1 Scope
-            </p>
+          <Card className="p-6">
+            <p className="label-eyebrow mb-4">Version 1 Scope</p>
             <ul className="space-y-3 text-sm leading-6 text-slate-700">
               <li>Read-only model viewing</li>
               <li>Project dashboard and detail pages</li>
@@ -61,22 +57,20 @@ export default function Home() {
             <div className="mt-6 rounded-xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-600">
               Designed for controlled BIM visibility across project stakeholders.
             </div>
-          </div>
+          </Card>
         </div>
-      </section>
+      </PageContainer>
 
-      <section className="app-shell pb-8">
+      <PageContainer className="pb-8">
         <div className="mb-6">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
-            Feature Highlights
-          </p>
+          <p className="label-eyebrow">Feature Highlights</p>
           <h2 className="mt-2 text-2xl font-semibold tracking-tight text-slate-900">
             Built for practical model review
           </h2>
         </div>
         <div className="grid gap-4 md:grid-cols-2">
           {features.map((feature) => (
-            <article key={feature.title} className="panel p-6">
+            <Card key={feature.title} className="p-6">
               <div className="mb-4 h-9 w-9 rounded-lg bg-slate-100 p-2">
                 <svg viewBox="0 0 20 20" fill="none" className="h-full w-full text-slate-700">
                   <path
@@ -91,16 +85,14 @@ export default function Home() {
               <p className="mt-2 text-sm leading-6 text-slate-600">
                 {feature.description}
               </p>
-            </article>
+            </Card>
           ))}
         </div>
-      </section>
+      </PageContainer>
 
-      <section className="app-shell py-10">
-        <div className="panel p-8 md:p-10">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
-            How It Works
-          </p>
+      <PageContainer className="py-10">
+        <Card className="p-8 md:p-10">
+          <p className="label-eyebrow">How It Works</p>
           <div className="mt-5 grid gap-4 md:grid-cols-3">
             <div className="rounded-xl border border-slate-200 bg-slate-50 p-5">
               <p className="text-sm font-semibold text-slate-900">1. Sign In</p>
@@ -121,11 +113,11 @@ export default function Home() {
               </p>
             </div>
           </div>
-        </div>
-      </section>
+        </Card>
+      </PageContainer>
 
-      <section className="app-shell pb-12">
-        <div className="panel flex flex-col items-start justify-between gap-5 p-8 md:flex-row md:items-center">
+      <PageContainer className="pb-12">
+        <Card className="flex flex-col items-start justify-between gap-5 p-8 md:flex-row md:items-center">
           <div>
             <h2 className="text-2xl font-semibold tracking-tight text-slate-900">
               Ready to preview your BIM workspace?
@@ -134,11 +126,11 @@ export default function Home() {
               Use the demo login and browse projects in a realistic product layout.
             </p>
           </div>
-          <Link href="/login" className="btn-primary px-5">
+          <Button href="/login" variant="primary" className="px-5">
             Open Demo App
-          </Link>
-        </div>
-      </section>
+          </Button>
+        </Card>
+      </PageContainer>
 
       <footer className="border-t border-slate-200 bg-white">
         <div className="app-shell flex flex-wrap items-center justify-between gap-3 py-5 text-sm text-slate-500">

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import Link from "next/link";
+import { Badge, Button } from "@/components/ui";
+import AppSidebar from "@/components/layout/app-sidebar";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -28,35 +29,29 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-slate-50 text-slate-900">
-        <header className="sticky top-0 z-20 border-b border-slate-200/90 bg-white/90 backdrop-blur">
-          <nav className="app-shell flex items-center justify-between py-3.5">
-            <Link href="/" className="text-base font-semibold tracking-tight text-slate-900">
-              My Revit Viewer
-            </Link>
-            <div className="flex items-center gap-2">
-              <Link
-                href="/integration-setup"
-                className="rounded-md px-3 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-900"
-              >
-                Integration Setup
-              </Link>
-              <Link
-                href="/dashboard"
-                className="rounded-md px-3 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-900"
-              >
-                Dashboard
-              </Link>
-              <Link
-                href="/login"
-                className="btn-primary px-3 py-2"
-              >
-                Login
-              </Link>
-            </div>
-          </nav>
-        </header>
-        {children}
+      <body className="min-h-full bg-slate-50 text-slate-900">
+        <div className="grid min-h-screen grid-cols-1 lg:grid-cols-[240px_1fr]">
+          <AppSidebar />
+
+          <div className="flex min-w-0 flex-col">
+            <header className="sticky top-0 z-20 border-b border-slate-200 bg-white/95 backdrop-blur">
+              <div className="app-shell flex items-center justify-between py-3">
+                <div>
+                  <p className="label-eyebrow">Enterprise Workspace</p>
+                  <p className="text-sm font-medium text-slate-900">My Revit Viewer</p>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Badge variant="neutral">Koustav Dhar</Badge>
+                  <Button href="/login" variant="secondary" size="sm">
+                    Login
+                  </Button>
+                </div>
+              </div>
+            </header>
+
+            {children}
+          </div>
+        </div>
       </body>
     </html>
   );

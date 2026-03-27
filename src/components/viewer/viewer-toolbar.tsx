@@ -10,13 +10,13 @@ export default function ViewerToolbar({
   onToolChange,
 }: ViewerToolbarProps) {
   return (
-    <div className="mb-3 flex flex-wrap items-center gap-2 rounded-xl border border-slate-200 bg-slate-50 p-2">
+    <div className="flex flex-wrap items-center gap-1 rounded-md border border-slate-200 bg-slate-50 p-1.5">
       {tools.map((tool) => (
         <button
           key={tool}
           type="button"
           onClick={() => onToolChange(tool)}
-          className={`rounded-md px-3 py-1.5 text-sm font-medium transition ${
+          className={`rounded px-2 py-1 text-xs font-medium transition ${
             activeTool === tool
               ? "bg-slate-900 text-white"
               : "border border-slate-300 bg-white text-slate-700 hover:bg-slate-100"

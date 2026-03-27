@@ -2,17 +2,37 @@
 
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { Button, Card, Input, PageContainer, SectionHeader } from "@/components/ui";
 
 export default function LoginPage() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errors, setErrors] = useState<{ email?: string; password?: string; form?: string }>(
+    {},
+  );
+
+  function validate() {
+    const next: { email?: string; password?: string; form?: string } = {};
+    const trimmedEmail = email.trim();
+    if (!trimmedEmail) {
+      next.email = "Work email is required.";
+    } else if (!/\S+@\S+\.\S+/.test(trimmedEmail)) {
+      next.email = "Enter a valid email address.";
+    }
+    if (!password.trim()) {
+      next.password = "Password is required.";
+    } else if (password.trim().length < 6) {
+      next.password = "Password must be at least 6 characters.";
+    }
+    setErrors(next);
+    return Object.keys(next).length === 0;
+  }
 
   function handleLogin(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-
-    if (!email.trim() || !password.trim()) {
-      alert("Please enter email and password.");
+    if (!validate()) {
       return;
     }
 
@@ -21,48 +41,62 @@ export default function LoginPage() {
   }
 
   return (
-    <main className="app-shell flex flex-1 items-center justify-center py-14">
-      <section className="panel w-full max-w-md p-8 md:p-10">
-        <p className="mb-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
-          Secure Access
-        </p>
-        <h1 className="mb-2 text-3xl font-semibold tracking-tight text-slate-900">
-          Login
-        </h1>
-        <p className="mb-7 text-sm text-slate-600">
-          Sign in to access your project dashboards and model viewer.
-        </p>
+    <PageContainer className="items-center justify-center py-10">
+      <Card className="w-full max-w-md p-6 md:p-7">
+        <p className="label-eyebrow mb-3 text-center">My Revit Viewer</p>
+        <SectionHeader
+          eyebrow="Secure Access"
+          title="Sign In"
+          description="Access your project control center and viewer workspace."
+          className="mb-5"
+          size="compact"
+        />
 
-        <form className="space-y-4" onSubmit={handleLogin}>
+        <form className="space-y-3.5" onSubmit={handleLogin} noValidate>
           <div>
             <label className="mb-1 block text-sm font-medium text-slate-700">
               Work Email
             </label>
-            <input
+            <Input
               type="email"
               placeholder="name@company.com"
               value={email}
-              onChange={(event) => setEmail(event.target.value)}
-              className="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm outline-none ring-slate-300 placeholder:text-slate-400 focus:ring-2"
+              onChange={(event) => {
+                setEmail(event.target.value);
+                if (errors.email || errors.form) setErrors((prev) => ({ ...prev, email: undefined, form: undefined }));
+              }}
+              aria-invalid={!!errors.email}
             />
+            {errors.email ? <p className="mt-1 text-xs text-rose-700">{errors.email}</p> : null}
           </div>
           <div>
             <label className="mb-1 block text-sm font-medium text-slate-700">
               Password
             </label>
-            <input
+            <Input
               type="password"
               placeholder="••••••••"
               value={password}
-              onChange={(event) => setPassword(event.target.value)}
-              className="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm outline-none ring-slate-300 placeholder:text-slate-400 focus:ring-2"
+              onChange={(event) => {
+                setPassword(event.target.value);
+                if (errors.password || errors.form) setErrors((prev) => ({ ...prev, password: undefined, form: undefined }));
+              }}
+              aria-invalid={!!errors.password}
             />
+            {errors.password ? <p className="mt-1 text-xs text-rose-700">{errors.password}</p> : null}
           </div>
-          <button type="submit" className="btn-primary flex w-full">
+          {errors.form ? <p className="text-xs text-rose-700">{errors.form}</p> : null}
+          <Button type="submit" variant="primary" className="flex w-full">
             Sign In (Demo)
-          </button>
+          </Button>
+          <p className="text-center text-xs text-slate-600">
+            New workspace user?{" "}
+            <Link href="/signup" className="font-medium text-slate-800 hover:text-slate-950">
+              Create account
+            </Link>
+          </p>
         </form>
-      </section>
-    </main>
+      </Card>
+    </PageContainer>
   );
 }

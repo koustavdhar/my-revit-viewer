@@ -1,8 +1,16 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f8fafc;
-  --foreground: #0f172a;
+  --background: #f5f7fa;
+  --surface: #ffffff;
+  --surface-muted: #f8fafc;
+  --border: #dbe2ea;
+  --text: #0f172a;
+  --text-muted: #5b6776;
+  --primary: #1d4ed8;
+  --success: #0f766e;
+  --warning: #b45309;
+  --error: #be123c;
 }
 
 @theme inline {
@@ -15,14 +23,23 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #020617;
-    --foreground: #e2e8f0;
+    --surface: #0b1220;
+    --surface-muted: #111827;
+    --border: #1f2937;
+    --text: #e2e8f0;
+    --text-muted: #94a3b8;
+    --primary: #60a5fa;
+    --success: #2dd4bf;
+    --warning: #fbbf24;
+    --error: #fb7185;
   }
 }
 
 body {
   background: var(--background);
-  color: var(--foreground);
+  color: var(--text);
   font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  line-height: 1.5;
 }
 
 .app-shell {
@@ -30,21 +47,54 @@ body {
 }
 
 .panel {
-  @apply rounded-2xl border border-slate-200 bg-white shadow-sm;
+  @apply rounded-xl border bg-white;
+  border-color: var(--border);
+  background: var(--surface);
 }
 
 .panel-muted {
-  @apply rounded-2xl border border-slate-200 bg-slate-50 shadow-sm;
-}
-
-.btn-primary {
-  @apply inline-flex items-center justify-center rounded-lg bg-slate-900 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-slate-700;
-}
-
-.btn-secondary {
-  @apply inline-flex items-center justify-center rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 transition hover:bg-slate-100;
+  @apply rounded-xl border;
+  border-color: var(--border);
+  background: var(--surface-muted);
 }
 
 .section-title {
   @apply text-3xl font-semibold tracking-tight text-slate-900 md:text-4xl;
+}
+
+/* Typography scale */
+.text-heading-xl {
+  @apply text-3xl font-semibold tracking-tight md:text-4xl;
+}
+
+.text-heading-lg {
+  @apply text-2xl font-semibold tracking-tight md:text-3xl;
+}
+
+.text-heading-md {
+  @apply text-xl font-semibold tracking-tight md:text-2xl;
+}
+
+.text-subheading {
+  @apply text-sm font-medium text-slate-700;
+}
+
+.text-body {
+  @apply text-sm text-slate-700;
+}
+
+.text-caption {
+  @apply text-xs text-slate-500;
+}
+
+.label-eyebrow {
+  @apply text-xs font-semibold uppercase tracking-[0.14em] text-slate-500;
+}
+
+.label-key {
+  @apply text-xs font-medium uppercase tracking-[0.08em] text-slate-500;
+}
+
+.label-table {
+  @apply text-xs uppercase tracking-[0.1em] text-slate-500;
 }

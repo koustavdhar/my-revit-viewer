@@ -1,69 +1,54 @@
 import Link from "next/link";
 import LogoutButton from "@/components/logout-button";
-import { ViewerProject } from "@/features/viewer/types";
+import ModelTreePanel from "@/features/viewer/components/panels/model-tree-panel";
+import { ElementItem, ViewerProject } from "@/features/viewer/types";
+import { Badge, Card, Divider } from "@/components/ui";
 
 type ProjectInfoPanelProps = {
   project: ViewerProject;
+  elements: ElementItem[];
+  selectedElementId: string;
+  onSelectElement: (id: string) => void;
 };
 
-export default function ProjectInfoPanel({ project }: ProjectInfoPanelProps) {
+export default function ProjectInfoPanel({
+  project,
+  elements,
+  selectedElementId,
+  onSelectElement,
+}: ProjectInfoPanelProps) {
   return (
-    <aside className="panel h-fit p-5">
-      <h2 className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
-        Project Panel
-      </h2>
-      <div className="space-y-2 text-sm text-slate-700">
-        <p>
-          <span className="font-medium text-slate-900">Project name:</span> {project.name}
-        </p>
-        <p>
-          <span className="font-medium text-slate-900">Model version:</span> v1.0.3
-        </p>
-        <p>
-          <span className="font-medium text-slate-900">Discipline:</span>{" "}
-          {project.discipline ?? "—"}
-        </p>
-        <p>
-          <span className="font-medium text-slate-900">Last updated:</span> {project.lastUpdated}
-        </p>
-        {project.modelSource ? (
-          <p>
-            <span className="font-medium text-slate-900">Model source:</span> {project.modelSource}
-          </p>
-        ) : null}
-        {project.modelUrl ? (
-          <p className="break-all">
-            <span className="font-medium text-slate-900">Model URL:</span>{" "}
-            <a
-              href={project.modelUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-blue-700 underline hover:text-blue-900"
-            >
-              {project.modelUrl}
-            </a>
-          </p>
-        ) : (
-          <p className="text-slate-500">
-            <span className="font-medium text-slate-900">Model URL:</span> Not set
-          </p>
-        )}
-      </div>
+    <aside className="space-y-3">
+      <Card className="p-3">
+        <p className="label-eyebrow">Project Info</p>
+        <p className="mt-2 text-sm font-semibold text-slate-900">{project.name}</p>
+        <div className="mt-2 grid grid-cols-[88px_1fr] gap-y-1.5 text-xs">
+          <p className="label-key">Version</p>
+          <p className="font-medium text-slate-800">v1.0.3</p>
+          <p className="label-key">Discipline</p>
+          <p className="font-medium text-slate-800">{project.discipline ?? "—"}</p>
+          <p className="label-key">Updated</p>
+          <p className="font-medium text-slate-800">{project.lastUpdated}</p>
+          <p className="label-key">Source</p>
+          <p className="font-medium text-slate-800">{project.modelSource ?? "—"}</p>
+        </div>
+        <Divider className="my-2" />
+        <div className="flex items-center justify-between">
+          <Badge variant="neutral">Read-only</Badge>
+          <Link href="/dashboard" className="text-xs font-medium text-slate-600 hover:text-slate-900">
+            Dashboard
+          </Link>
+        </div>
+        <div className="mt-2">
+          <LogoutButton />
+        </div>
+      </Card>
 
-      <div className="mt-5 rounded-xl border border-slate-200 bg-slate-50 p-3">
-        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
-          User
-        </p>
-        <p className="mt-2 text-sm font-semibold text-slate-900">Koustav Dhar</p>
-        <p className="text-xs text-slate-500">Read-only Session</p>
-      </div>
-
-      <Link href="/dashboard" className="btn-secondary mt-5 flex">
-        Back to Dashboard
-      </Link>
-      <div className="mt-3">
-        <LogoutButton />
-      </div>
+      <ModelTreePanel
+        elements={elements}
+        selectedElementId={selectedElementId}
+        onSelectElement={onSelectElement}
+      />
     </aside>
   );
 }
