@@ -158,6 +158,16 @@ export default function DashboardPage() {
               </table>
             </div>
           </section>
+
+          <section className="panel mt-6 p-5">
+            <h2 className="text-sm font-semibold text-slate-900">Release Notes (v1.1)</h2>
+            <ul className="mt-3 list-disc space-y-1 pl-5 text-sm text-slate-600">
+              <li>Viewer connection info bar added (mode, host, token status).</li>
+              <li>Clear mock-data labels added to model tree and property panel.</li>
+              <li>Integration setup page now includes a reset demo state action.</li>
+              <li>Core workflow remains read-only and production-safe for demos.</li>
+            </ul>
+          </section>
         </section>
       </div>
     </main>

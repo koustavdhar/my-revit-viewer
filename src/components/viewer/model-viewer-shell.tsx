@@ -49,6 +49,7 @@ export default function ModelViewerShell({ project }: ModelViewerShellProps) {
   const isSpeckleAppProjectModelUrl =
     modelUrl.includes("app.speckle.systems/projects/") &&
     modelUrl.includes("/models/");
+  const sourceHost = hasModelLink ? new URL(modelUrl).host : "Not configured";
 
   const statusBadges = useMemo(() => {
     const connected =
@@ -178,6 +179,17 @@ export default function ModelViewerShell({ project }: ModelViewerShellProps) {
               activeTool={viewer.activeTool}
               onToolChange={viewer.setActiveTool}
             />
+            <div className="mt-3 rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-xs text-slate-600">
+              <span className="font-medium text-slate-800">Connection:</span>{" "}
+              {isSpeckleAppProjectModelUrl
+                ? "Speckle app embed mode"
+                : trySpeckle
+                  ? "Speckle SDK mode"
+                  : "Preview mode"}{" "}
+              | <span className="font-medium text-slate-800">Host:</span> {sourceHost} |{" "}
+              <span className="font-medium text-slate-800">Token:</span>{" "}
+              {speckleToken ? "Configured" : "Missing"}
+            </div>
 
             {/* Speckle: real WebGL viewer via @speckle/viewer when URL + workflow match. */}
             {/* Toolbar actions are still local dummy state until wired to viewer.getExtension / camera APIs. */}

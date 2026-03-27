@@ -68,6 +68,16 @@ export default function IntegrationSetupPage() {
     setChecked((prev) => ({ ...prev, [id]: !prev[id] }));
   }
 
+  function resetDemoState() {
+    setChecked({});
+    setNotes("");
+    try {
+      localStorage.removeItem(STORAGE_KEY);
+    } catch {
+      // ignore storage failures
+    }
+  }
+
   return (
     <main className="app-shell flex flex-1 flex-col py-10">
       <header className="mb-8">
@@ -129,6 +139,9 @@ export default function IntegrationSetupPage() {
       </div>
 
       <div className="mt-8 flex flex-wrap gap-3">
+        <button type="button" onClick={resetDemoState} className="btn-secondary">
+          Reset demo state
+        </button>
         <Link href="/dashboard" className="btn-secondary">
           Back to Dashboard
         </Link>

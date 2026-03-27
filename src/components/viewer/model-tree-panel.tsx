@@ -147,6 +147,7 @@ export default function ModelTreePanel({
       <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
         Model Tree
       </p>
+      <p className="mt-1 text-[11px] text-slate-500">Placeholder data (mock hierarchy for demo)</p>
       <input
         type="text"
         value={treeSearch}
