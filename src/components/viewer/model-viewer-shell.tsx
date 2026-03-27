@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { integrationsConfig, VIEWER_BACKEND } from "@/config/integrations";
 import ModelTreePanel from "@/features/viewer/components/panels/model-tree-panel";
 import ProjectInfoPanel from "@/features/viewer/components/panels/project-info-panel";
@@ -66,6 +66,19 @@ export default function ModelViewerShell({ project }: ModelViewerShellProps) {
       },
     ];
   }, [hasModelLink, integrationState.status, trySpeckle]);
+
+  const handleStatusChange = useCallback(
+    (status: "loading" | "embedded" | "fallback", reason?: string | null) => {
+      const nextReason = reason ?? null;
+      setIntegrationState((prev) => {
+        if (prev.status === status && prev.reason === nextReason) {
+          return prev;
+        }
+        return { status, reason: nextReason };
+      });
+    },
+    [],
+  );
 
   return (
     <main className="app-shell flex flex-1 py-8">
@@ -169,12 +182,7 @@ export default function ModelViewerShell({ project }: ModelViewerShellProps) {
                   modelUrl={modelUrl}
                   authToken={speckleToken}
                   refreshKey={refreshTick}
-                  onStatusChange={(status, reason) =>
-                    setIntegrationState({
-                      status,
-                      reason: reason ?? null,
-                    })
-                  }
+                  onStatusChange={handleStatusChange}
                 />
               ) : (
                 <ViewerPreviewFallback

@@ -29,22 +29,27 @@ export default function SpeckleViewerCanvas({
   const containerRef = useRef<HTMLDivElement>(null);
   /** Holds LegacyViewer instance for resize; set after dynamic import. */
   const viewerRef = useRef<{ resize: () => void; dispose: () => void } | null>(null);
+  const statusCallbackRef = useRef(onStatusChange);
   const [state, setState] = useState<ViewState>("loading");
   const [fallbackReason, setFallbackReason] = useState<string | null>(null);
+
+  useEffect(() => {
+    statusCallbackRef.current = onStatusChange;
+  }, [onStatusChange]);
 
   useEffect(() => {
     const el = containerRef.current;
     if (!el || !modelUrl.trim()) {
       setState("fallback");
       setFallbackReason("No model URL configured for this project.");
-      onStatusChange?.("fallback", "No model URL configured for this project.");
+      statusCallbackRef.current?.("fallback", "No model URL configured for this project.");
       return;
     }
 
     let cancelled = false;
     setState("loading");
     setFallbackReason(null);
-    onStatusChange?.("loading", null);
+    statusCallbackRef.current?.("loading", null);
 
     async function loadSpeckleViewer() {
       const mountEl = containerRef.current;
@@ -72,7 +77,7 @@ export default function SpeckleViewerCanvas({
             "Could not resolve a loadable resource from this URL. Use a valid Speckle stream or commit link.";
           setFallbackReason(reason);
           setState("fallback");
-          onStatusChange?.("fallback", reason);
+          statusCallbackRef.current?.("fallback", reason);
           viewer.dispose();
           viewerRef.current = null;
           return;
@@ -89,7 +94,7 @@ export default function SpeckleViewerCanvas({
 
         viewer.resize();
         setState("embedded");
-        onStatusChange?.("embedded", null);
+        statusCallbackRef.current?.("embedded", null);
       } catch (err) {
         console.error("[Speckle viewer]", err);
         if (!cancelled) {
@@ -97,7 +102,7 @@ export default function SpeckleViewerCanvas({
             err instanceof Error ? err.message : "Viewer could not load this model.";
           setFallbackReason(reason);
           setState("fallback");
-          onStatusChange?.("fallback", reason);
+          statusCallbackRef.current?.("fallback", reason);
         }
         try {
           viewerRef.current?.dispose();
@@ -114,7 +119,7 @@ export default function SpeckleViewerCanvas({
       viewerRef.current?.dispose();
       viewerRef.current = null;
     };
-  }, [modelUrl, authToken, refreshKey, onStatusChange]);
+  }, [modelUrl, authToken, refreshKey]);
 
   useEffect(() => {
     function onResize() {

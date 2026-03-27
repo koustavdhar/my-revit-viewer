@@ -25,7 +25,7 @@ export const projects: MockProject[] = [
     discipline: "Architecture",
     modelSource: "Speckle",
     modelUrl:
-      "https://app.speckle.systems/projects/213299ab7d/models/6673443f96",
+      "https://app.speckle.systems/projects/66cfcdaeb3/models/6dc4b8f969",
     status: "Active",
     lastUpdated: "2026-03-22",
     description:
