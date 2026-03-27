@@ -1,6 +1,6 @@
 "use client";
 
-import { VIEWER_BACKEND } from "@/components/viewer/config";
+import { VIEWER_BACKEND } from "@/config/integrations";
 import { ViewerProvider } from "@/components/viewer/provider";
 import { useDummyViewerProvider } from "@/components/viewer/use-dummy-viewer-provider";
 

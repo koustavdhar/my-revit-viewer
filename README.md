@@ -1,36 +1,72 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# My Revit Viewer (Prototype)
 
-## Getting Started
+A beginner-friendly, read-only AEC web app prototype built with Next.js.
 
-First, run the development server:
+## Run locally
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Then open `http://localhost:3000` (or the port shown in terminal).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Current prototype status
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Professional frontend pages are in place (landing, login, dashboard, project detail, viewer, integration setup).
+- Read-only viewer workspace UI is implemented (left info panel, toolbar, model area, model tree, properties panel).
+- Simple prototype auth is implemented (cookie + route protection via middleware).
+- Project data is local mock data for safe prototyping.
+- Speckle embed path is partially real:
+  - tries `@speckle/viewer` for compatible Speckle model URLs
+  - includes robust fallback panel with "Open in source platform"
 
-## Learn More
+## What is mock right now
 
-To learn more about Next.js, take a look at the following resources:
+- Project list and project metadata (`src/features/projects/mock-projects.ts`)
+- Viewer model tree and property inspection data (`src/components/viewer/dummy-data.ts`)
+- Toolbar actions are UI-only (not yet bound to real camera/selection SDK actions)
+- Auth is frontend-only demo auth (not production secure)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## What is real right now
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Next.js app structure and routing
+- Responsive dashboard/detail/viewer layouts
+- Route protection behavior in middleware
+- Speckle integration attempt and runtime fallback behavior
+- Production build and lint checks
 
-## Deploy on Vercel
+## Folder structure (scaling-focused)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- `src/features/projects/` project domain data + helpers
+- `src/features/viewer/` viewer-facing structure (components/providers/data/types entry points)
+- `src/config/` integration/backend configuration
+- `src/app/` pages and routes
+- `src/components/` shared and legacy-compatible component locations
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Environment setup
+
+Copy `.env.example` to `.env.local`:
+
+```bash
+cp .env.example .env.local
+```
+
+Windows PowerShell:
+
+```powershell
+Copy-Item .env.example .env.local
+```
+
+Only fill values you need (for example `NEXT_PUBLIC_SPECKLE_TOKEN` for private stream testing).
+
+## What needs to be added next for production
+
+- Real backend authentication/session management
+- Secure token exchange endpoints (Speckle and/or APS)
+- Real data store (projects/users/permissions) instead of local mock file
+- Production logging, monitoring, and error reporting
+- Role-based access control and API authorization
+- Viewer tools wired to real SDK camera/selection APIs
+
+See `NEXT-STEPS.md` for simple beginner guidance on Speckle and APS roadmap.

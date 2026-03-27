@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { projects } from "@/lib/dummy-data";
-import ModelViewerShell from "@/components/viewer/model-viewer-shell";
+import ModelViewerShell from "@/features/viewer/components/shell/model-viewer-shell";
+import { getProjectById, toViewerProject } from "@/features/projects";
 
 type ViewerPageProps = {
   params: Promise<{ id: string }>;
@@ -8,7 +8,7 @@ type ViewerPageProps = {
 
 export default async function ViewerPage({ params }: ViewerPageProps) {
   const { id } = await params;
-  const project = projects.find((item) => item.id === id);
+  const project = getProjectById(id);
 
   if (!project) {
     return (
@@ -21,7 +21,5 @@ export default async function ViewerPage({ params }: ViewerPageProps) {
     );
   }
 
-  return (
-    <ModelViewerShell project={project} />
-  );
+  return <ModelViewerShell project={toViewerProject(project)} />;
 }

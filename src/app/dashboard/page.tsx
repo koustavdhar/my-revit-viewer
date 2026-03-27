@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { projects } from "@/lib/dummy-data";
+import { projects } from "@/features/projects";
 import LogoutButton from "@/components/logout-button";
 
 function getStatusBadgeClass(status: string) {
@@ -55,7 +55,10 @@ export default function DashboardPage() {
               <h1 className="mt-2 text-3xl font-semibold tracking-tight text-slate-900">
                 Dashboard
               </h1>
-              <p className="mt-1 text-sm text-slate-600">4 sample projects (dummy data)</p>
+              <p className="mt-1 text-sm text-slate-600">
+                {projects.length} sample projects (mock data from{" "}
+                <code className="rounded bg-slate-100 px-1 text-xs">mock-projects.ts</code>)
+              </p>
             </div>
             <Link href="/login" className="btn-secondary hidden sm:inline-flex">
               Change Account
@@ -76,16 +79,16 @@ export default function DashboardPage() {
 
           <div className="grid gap-5 md:grid-cols-2">
             {projects.map((project) => (
-              <article
-                key={project.id}
-                className="panel p-5"
-              >
+              <article key={project.id} className="panel p-5">
                 <div className="mb-4 flex items-start justify-between gap-4">
                   <div>
                     <h2 className="text-lg font-semibold text-slate-900">
-                      {project.name}
+                      {project.projectName}
                     </h2>
-                    <p className="mt-1 text-sm text-slate-600">{project.client}</p>
+                    <p className="mt-1 text-sm text-slate-600">{project.clientName}</p>
+                    <p className="mt-2 text-xs text-slate-500">
+                      {project.discipline} · {project.modelSource}
+                    </p>
                   </div>
                   <span
                     className={`rounded-full px-2.5 py-1 text-xs font-medium ${getStatusBadgeClass(project.status)}`}
@@ -94,11 +97,14 @@ export default function DashboardPage() {
                   </span>
                 </div>
 
-                <p className="text-sm text-slate-600">Last updated: {project.lastUpdated}</p>
+                <p className="line-clamp-2 text-sm text-slate-600">{project.description}</p>
+                <p className="mt-3 text-sm text-slate-700">
+                  Last updated: <span className="font-medium">{project.lastUpdated}</span>
+                </p>
 
-                <div className="mt-5 flex gap-3">
+                <div className="mt-5 flex flex-wrap gap-3">
                   <Link href={`/viewer/${project.id}`} className="btn-primary">
-                    Open Model
+                    Open Viewer
                   </Link>
                   <Link href={`/projects/${project.id}`} className="btn-secondary">
                     Project Detail
@@ -113,10 +119,12 @@ export default function DashboardPage() {
               <h2 className="text-sm font-semibold text-slate-900">Compact Project List</h2>
             </div>
             <div className="overflow-x-auto">
-              <table className="w-full min-w-[640px] text-left text-sm">
+              <table className="w-full min-w-[720px] text-left text-sm">
                 <thead className="bg-slate-50 text-slate-500">
                   <tr>
                     <th className="px-5 py-3 font-medium">Project</th>
+                    <th className="px-5 py-3 font-medium">Discipline</th>
+                    <th className="px-5 py-3 font-medium">Model source</th>
                     <th className="px-5 py-3 font-medium">Status</th>
                     <th className="px-5 py-3 font-medium">Last updated</th>
                     <th className="px-5 py-3 font-medium">Action</th>
@@ -126,9 +134,11 @@ export default function DashboardPage() {
                   {projects.map((project) => (
                     <tr key={`${project.id}-row`} className="border-t border-slate-200">
                       <td className="px-5 py-3">
-                        <p className="font-medium text-slate-900">{project.name}</p>
-                        <p className="text-xs text-slate-500">{project.client}</p>
+                        <p className="font-medium text-slate-900">{project.projectName}</p>
+                        <p className="text-xs text-slate-500">{project.clientName}</p>
                       </td>
+                      <td className="px-5 py-3 text-slate-600">{project.discipline}</td>
+                      <td className="px-5 py-3 text-slate-600">{project.modelSource}</td>
                       <td className="px-5 py-3">
                         <span
                           className={`rounded-full px-2.5 py-1 text-xs font-medium ${getStatusBadgeClass(project.status)}`}
@@ -139,7 +149,7 @@ export default function DashboardPage() {
                       <td className="px-5 py-3 text-slate-600">{project.lastUpdated}</td>
                       <td className="px-5 py-3">
                         <Link href={`/viewer/${project.id}`} className="btn-secondary !py-1.5">
-                          Open Model
+                          Open Viewer
                         </Link>
                       </td>
                     </tr>

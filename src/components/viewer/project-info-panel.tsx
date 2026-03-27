@@ -1,6 +1,6 @@
 import Link from "next/link";
 import LogoutButton from "@/components/logout-button";
-import { ViewerProject } from "@/components/viewer/types";
+import { ViewerProject } from "@/features/viewer/types";
 
 type ProjectInfoPanelProps = {
   project: ViewerProject;
@@ -20,11 +20,34 @@ export default function ProjectInfoPanel({ project }: ProjectInfoPanelProps) {
           <span className="font-medium text-slate-900">Model version:</span> v1.0.3
         </p>
         <p>
-          <span className="font-medium text-slate-900">Discipline:</span> Architectural
+          <span className="font-medium text-slate-900">Discipline:</span>{" "}
+          {project.discipline ?? "—"}
         </p>
         <p>
           <span className="font-medium text-slate-900">Last updated:</span> {project.lastUpdated}
         </p>
+        {project.modelSource ? (
+          <p>
+            <span className="font-medium text-slate-900">Model source:</span> {project.modelSource}
+          </p>
+        ) : null}
+        {project.modelUrl ? (
+          <p className="break-all">
+            <span className="font-medium text-slate-900">Model URL:</span>{" "}
+            <a
+              href={project.modelUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-700 underline hover:text-blue-900"
+            >
+              {project.modelUrl}
+            </a>
+          </p>
+        ) : (
+          <p className="text-slate-500">
+            <span className="font-medium text-slate-900">Model URL:</span> Not set
+          </p>
+        )}
       </div>
 
       <div className="mt-5 rounded-xl border border-slate-200 bg-slate-50 p-3">

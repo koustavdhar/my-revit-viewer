@@ -1,4 +1,4 @@
-import { ElementItem } from "@/components/viewer/types";
+import { ElementItem } from "@/features/viewer/types";
 
 type PropertiesPanelProps = {
   selectedElement: ElementItem;

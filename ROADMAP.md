@@ -69,3 +69,10 @@
 3. Mount real viewer in `ModelViewerShell`.
 4. Replace dummy model tree/properties with live SDK data.
 5. Keep current UI structure and swap data sources gradually.
+
+## Speckle viewer (current prototype)
+
+- **Embedded:** `src/components/viewer/speckle-viewer-canvas.tsx` uses `@speckle/viewer` (`LegacyViewer`, `UrlHelper.getResourceUrls`, `loadObjectAsync`). Requires a **real** Speckle stream/commit URL in `mock-projects.ts` and optional `NEXT_PUBLIC_SPECKLE_TOKEN` for private streams.
+- **Next.js:** `next.config.ts` maps `#lodash` → `lodash-es` so Speckle packages bundle correctly.
+- **Fallback:** If resolution or load fails, the same page shows a preview panel and **Open model in new tab**.
+- **Still placeholder:** Toolbar tools are UI-only until wired to the viewer’s camera/extensions. Model tree and properties panel remain dummy data.

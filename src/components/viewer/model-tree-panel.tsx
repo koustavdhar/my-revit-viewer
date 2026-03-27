@@ -1,7 +1,7 @@
 "use client";
 
 import { KeyboardEvent, useMemo, useState } from "react";
-import { ElementItem, TreeGroup } from "@/components/viewer/types";
+import { ElementItem, TreeGroup } from "@/features/viewer/types";
 
 type ModelTreePanelProps = {
   elements: ElementItem[];
