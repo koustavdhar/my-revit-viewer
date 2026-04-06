@@ -13,22 +13,22 @@ export function AlertBanner({
 }: AlertBannerProps) {
   const toneClass =
     tone === "error"
-      ? "border-rose-200 bg-rose-50 text-rose-800"
+      ? "border-[color:color-mix(in_srgb,var(--error)_28%,var(--border))] bg-[color:var(--error-50)] text-[color:var(--error)]"
       : tone === "warning"
-        ? "border-amber-200 bg-amber-50 text-amber-800"
-        : "border-blue-200 bg-blue-50 text-blue-800";
+        ? "border-[color:color-mix(in_srgb,var(--warning)_28%,var(--border))] bg-[color:var(--warning-50)] text-[color:var(--warning)]"
+        : "border-[color:color-mix(in_srgb,var(--info)_22%,var(--border))] bg-[color:var(--info-50)] text-[color:var(--info)]";
 
   return (
     <div
       className={[
-        "rounded-md border px-3 py-2 text-sm",
+        "rounded-[var(--radius-sm)] border px-[length:var(--space-3)] py-[length:var(--space-2)] text-[length:var(--text-xs)] leading-snug shadow-[var(--shadow-xs)]",
         toneClass,
         className ?? "",
       ].join(" ")}
       role="alert"
     >
-      {title ? <p className="font-semibold">{title}</p> : null}
-      <p>{message}</p>
+      {title ? <p className="font-bold tracking-tight">{title}</p> : null}
+      <p className={title ? "mt-0.5 leading-snug text-inherit" : "leading-snug text-inherit"}>{message}</p>
     </div>
   );
 }

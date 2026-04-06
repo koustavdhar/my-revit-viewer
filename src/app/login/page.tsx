@@ -3,7 +3,7 @@
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { Button, Card, Input, PageContainer, SectionHeader } from "@/components/ui";
+import { Button, Card, Input, PageContainer } from "@/components/ui";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -41,62 +41,78 @@ export default function LoginPage() {
   }
 
   return (
-    <PageContainer className="items-center justify-center py-10">
-      <Card className="w-full max-w-md p-6 md:p-7">
-        <p className="label-eyebrow mb-3 text-center">My Revit Viewer</p>
-        <SectionHeader
-          eyebrow="Secure Access"
-          title="Sign In"
-          description="Access your project control center and viewer workspace."
-          className="mb-5"
-          size="compact"
-        />
-
-        <form className="space-y-3.5" onSubmit={handleLogin} noValidate>
-          <div>
-            <label className="mb-1 block text-sm font-medium text-slate-700">
-              Work Email
-            </label>
-            <Input
-              type="email"
-              placeholder="name@company.com"
-              value={email}
-              onChange={(event) => {
-                setEmail(event.target.value);
-                if (errors.email || errors.form) setErrors((prev) => ({ ...prev, email: undefined, form: undefined }));
-              }}
-              aria-invalid={!!errors.email}
-            />
-            {errors.email ? <p className="mt-1 text-xs text-rose-700">{errors.email}</p> : null}
-          </div>
-          <div>
-            <label className="mb-1 block text-sm font-medium text-slate-700">
-              Password
-            </label>
-            <Input
-              type="password"
-              placeholder="••••••••"
-              value={password}
-              onChange={(event) => {
-                setPassword(event.target.value);
-                if (errors.password || errors.form) setErrors((prev) => ({ ...prev, password: undefined, form: undefined }));
-              }}
-              aria-invalid={!!errors.password}
-            />
-            {errors.password ? <p className="mt-1 text-xs text-rose-700">{errors.password}</p> : null}
-          </div>
-          {errors.form ? <p className="text-xs text-rose-700">{errors.form}</p> : null}
-          <Button type="submit" variant="primary" className="flex w-full">
-            Sign In (Demo)
-          </Button>
-          <p className="text-center text-xs text-slate-600">
-            New workspace user?{" "}
-            <Link href="/signup" className="font-medium text-slate-800 hover:text-slate-950">
-              Create account
-            </Link>
+    <PageContainer className="flex min-h-[calc(100dvh-6rem)] items-center justify-center">
+      <div className="w-full max-w-[22rem]">
+        <Card className="border-[color:var(--border)] p-[length:var(--card-padding-loose)] shadow-[var(--shadow-sm)]">
+          <p className="text-center text-[length:var(--text-2xs)] font-bold uppercase tracking-[0.14em] text-[color:var(--text-subtle)]">
+            Workspace sign-in
           </p>
-        </form>
-      </Card>
+          <h1 className="mt-2 text-center text-[length:var(--text-md)] font-bold tracking-tight text-[color:var(--text)]">
+            Sign in
+          </h1>
+          <p className="mt-1 text-center text-[length:var(--text-xs)] text-[color:var(--text-muted)]">
+            Demo authentication — sets a session cookie only.
+          </p>
+
+          <form className="mt-[length:var(--space-3)] flex flex-col gap-[length:var(--layout-section-gap)]" onSubmit={handleLogin} noValidate>
+            <div>
+              <label htmlFor="login-email" className="form-field-label">
+                Email
+              </label>
+              <Input
+                id="login-email"
+                type="email"
+                placeholder="name@company.com"
+                value={email}
+                onChange={(event) => {
+                  setEmail(event.target.value);
+                  if (errors.email || errors.form)
+                    setErrors((prev) => ({ ...prev, email: undefined, form: undefined }));
+                }}
+                aria-invalid={!!errors.email}
+              />
+              {errors.email ? (
+                <p className="mt-0.5 text-[length:var(--text-2xs)] text-[color:var(--error)]">{errors.email}</p>
+              ) : null}
+            </div>
+            <div>
+              <label htmlFor="login-password" className="form-field-label">
+                Password
+              </label>
+              <Input
+                id="login-password"
+                type="password"
+                placeholder="••••••••"
+                value={password}
+                onChange={(event) => {
+                  setPassword(event.target.value);
+                  if (errors.password || errors.form)
+                    setErrors((prev) => ({ ...prev, password: undefined, form: undefined }));
+                }}
+                aria-invalid={!!errors.password}
+              />
+              {errors.password ? (
+                <p className="mt-0.5 text-[length:var(--text-2xs)] text-[color:var(--error)]">{errors.password}</p>
+              ) : null}
+            </div>
+            {errors.form ? (
+              <p className="text-[length:var(--text-2xs)] text-[color:var(--error)]">{errors.form}</p>
+            ) : null}
+            <Button type="submit" variant="primary" className="flex w-full" size="md">
+              Sign in (demo)
+            </Button>
+            <p className="text-center text-[length:var(--text-2xs)] text-[color:var(--text-muted)]">
+              New user?{" "}
+              <Link
+                href="/signup"
+                className="font-bold text-[color:var(--primary)] underline-offset-2 hover:underline"
+              >
+                Create account
+              </Link>
+            </p>
+          </form>
+        </Card>
+      </div>
     </PageContainer>
   );
 }

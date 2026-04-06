@@ -1,14 +1,19 @@
 import type { ReactNode } from "react";
-import { getProjectById } from "@/features/projects";
+import {
+  buildViewerHref,
+  getProjectById,
+  getProjectSpatialFiles,
+  recommendedSceneModeFromSpatialFiles,
+} from "@/features/projects";
+import ProjectSpatialRegistry from "@/features/projects/project-spatial-registry";
 import {
   AlertBanner,
   Badge,
   Button,
   Card,
-  Divider,
   EmptyState,
+  MoreMenu,
   PageContainer,
-  SectionHeader,
 } from "@/components/ui";
 
 type ProjectDetailProps = {
@@ -21,14 +26,14 @@ export default async function ProjectDetailPage({ params }: ProjectDetailProps) 
 
   if (!project) {
     return (
-      <PageContainer className="py-10">
-        <div className="w-full">
+      <PageContainer className="py-[length:var(--shell-content-pad-y)]">
+        <div className="w-full max-w-md">
           <EmptyState
             title="Project not found"
             message="The requested project does not exist or was removed."
             action={
               <Button href="/dashboard" variant="secondary">
-                Back to Dashboard
+                Dashboard
               </Button>
             }
           />
@@ -36,6 +41,10 @@ export default async function ProjectDetailPage({ params }: ProjectDetailProps) 
       </PageContainer>
     );
   }
+
+  const spatialFiles = getProjectSpatialFiles(project);
+  const recommendedMode = recommendedSceneModeFromSpatialFiles(spatialFiles);
+  const primaryViewerHref = buildViewerHref(project.id, recommendedMode);
 
   const modelLinkReady = !!project.modelUrl;
   const connectionStatus = modelLinkReady ? "Connected" : "Pending";
@@ -49,6 +58,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailProps) 
       label: "Status",
       value: (
         <Badge
+          size="compact"
           variant={
             project.status === "Active"
               ? "success"
@@ -61,112 +71,135 @@ export default async function ProjectDetailPage({ params }: ProjectDetailProps) 
         </Badge>
       ),
     },
+    {
+      label: "Registry files",
+      value: (
+        <span className="font-mono text-[length:var(--text-xs)] font-bold tabular-nums text-[color:var(--text)]">
+          {spatialFiles.length}
+        </span>
+      ),
+    },
   ];
 
   return (
-    <PageContainer className="py-10">
-      <div className="w-full">
-        <SectionHeader
-          eyebrow="Project Detail"
-          title={project.projectName}
-          description={`${project.clientName} · ${project.location}`}
-          className="mb-6"
-          size="compact"
-          actions={
-            <>
-              <Button href="/projects/new" variant="secondary" size="sm">
-                Edit
-              </Button>
-              <Button variant="ghost" size="sm" className="pointer-events-none opacity-60">
-                Delete
-              </Button>
-              <Button href={`/viewer/${project.id}`} variant="primary" size="sm">
-                Open Viewer
-              </Button>
-            </>
-          }
-        />
-
-        <div className="grid gap-5 lg:grid-cols-[1.2fr_0.8fr]">
-          <Card className="p-6">
-            <h2 className="label-eyebrow text-sm">
-              Project Metadata
-            </h2>
-            <Divider className="my-4" />
-            {!modelLinkReady ? (
-              <AlertBanner
-                title="Connection pending"
-                message="No model URL has been linked yet. Viewer embed will remain unavailable until a valid model URL is configured."
-                tone="warning"
-                className="mb-4"
-              />
-            ) : null}
-            <dl className="space-y-2.5 text-sm">
-              {metadataRows.map((row) => (
-                <div
-                  key={row.label}
-                  className="grid grid-cols-[140px_1fr] items-center gap-3 border-b border-slate-100 pb-2.5 last:border-b-0 last:pb-0"
-                >
-                  <dt className="label-key">{row.label}</dt>
-                  <dd className="font-medium text-slate-900">{row.value}</dd>
-                </div>
-              ))}
-            </dl>
-            <Divider className="my-4" />
-            <div>
-              <p className="mb-2 text-sm font-medium text-slate-500">Description</p>
-              <p className="text-sm leading-6 text-slate-700">{project.description}</p>
-            </div>
-          </Card>
-
-          <Card className="p-6">
-            <h2 className="label-eyebrow text-sm">
-              Model Information
-            </h2>
-            <Divider className="my-4" />
-            <dl className="space-y-2.5 text-sm">
-              <div className="grid grid-cols-[130px_1fr] items-center gap-3 border-b border-slate-100 pb-2.5">
-                <dt className="label-key">Source</dt>
-                <dd className="font-medium text-slate-900">{sourceLabel}</dd>
-              </div>
-              <div className="grid grid-cols-[130px_1fr] items-center gap-3 border-b border-slate-100 pb-2.5">
-                <dt className="label-key">Model link</dt>
-                <dd className="font-medium text-slate-900">
-                  {modelLinkReady ? (
-                    <a
-                      href={project.modelUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="break-all text-slate-700 underline hover:text-slate-900"
-                    >
-                      Available
-                    </a>
-                  ) : (
-                    "Not linked"
-                  )}
-                </dd>
-              </div>
-              <div className="grid grid-cols-[130px_1fr] items-center gap-3 border-b border-slate-100 pb-2.5">
-                <dt className="label-key">Last updated</dt>
-                <dd className="font-medium text-slate-900">{project.lastUpdated}</dd>
-              </div>
-              <div className="grid grid-cols-[130px_1fr] items-center gap-3">
-                <dt className="label-key">Connection</dt>
-                <dd>
-                  <Badge variant={modelLinkReady ? "success" : "warning"}>
-                    {connectionStatus}
-                  </Badge>
-                </dd>
-              </div>
-            </dl>
-          </Card>
+    <PageContainer>
+      <header className="flex flex-wrap items-center justify-between gap-[length:var(--layout-inline-gap)] border-b border-[color:var(--border-subtle)] pb-[length:var(--space-3)]">
+        <div className="min-w-0 flex-1">
+          <p className="label-key">Project detail</p>
+          <h1 className="mt-1 text-heading-md">{project.projectName}</h1>
+          <p className="mt-1 text-[length:var(--text-xs)] leading-relaxed text-[color:var(--text-muted)]">
+            <span className="font-medium text-[color:var(--text-subtle)]">{project.clientName}</span>
+            <span className="text-[color:var(--border-strong)]"> · </span>
+            {project.location}
+          </p>
         </div>
-
-        <div className="mt-6">
-          <Button href="/dashboard" variant="secondary">
-            Back to Dashboard
+        <div className="flex shrink-0 flex-wrap items-center justify-end gap-[length:var(--layout-inline-gap)]">
+          <Button href={primaryViewerHref} variant="primary" size="md">
+            Open viewer
           </Button>
+          <MoreMenu
+            items={[
+              { key: "viewer-bim", label: "Open in BIM mode", href: buildViewerHref(project.id, "bim") },
+              { key: "viewer-gis", label: "Open in GIS mode", href: buildViewerHref(project.id, "gis") },
+              { key: "viewer-combined", label: "Open in Combined mode", href: buildViewerHref(project.id, "combined") },
+            ]}
+          />
         </div>
+      </header>
+
+      <div className="grid gap-[length:var(--layout-grid-gap)] lg:grid-cols-2">
+        <Card className="border-[color:var(--border-subtle)] p-[length:var(--card-padding)]">
+          <div className="inspector-panel-stack">
+            <section className="inspector-section">
+              <h2 className="label-eyebrow">Project record</h2>
+              {!modelLinkReady ? (
+                <AlertBanner
+                  title="Connection pending"
+                  message="No model URL linked. Configure a model URL before embedding the viewer."
+                  tone="warning"
+                />
+              ) : null}
+            </section>
+            <section className="inspector-section">
+              <h3 className="inspector-section-title">Core fields</h3>
+              <dl className="inspector-dl">
+                {metadataRows.map((row) => (
+                  <div key={row.label} className="metadata-dl-row first:pt-0">
+                    <dt className="inspector-field-label !normal-case !tracking-wide">{row.label}</dt>
+                    <dd className="text-[length:var(--text-xs)] font-medium leading-snug text-[color:var(--text)]">
+                      {row.value}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+            </section>
+            <section className="inspector-section">
+              <h3 className="inspector-section-title">Description</h3>
+              <p className="text-[length:var(--text-xs)] leading-relaxed text-[color:var(--text-muted)]">{project.description}</p>
+            </section>
+          </div>
+        </Card>
+
+        <Card className="border-[color:var(--border-subtle)] p-[length:var(--card-padding)]">
+          <div className="inspector-panel-stack">
+            <section className="inspector-section">
+              <h2 className="label-eyebrow">Model connection</h2>
+            </section>
+            <section className="inspector-section">
+              <h3 className="inspector-section-title">Source &amp; link</h3>
+              <dl className="inspector-dl">
+                <div className="metadata-dl-row first:pt-0">
+                  <dt className="inspector-field-label !normal-case !tracking-wide">Source</dt>
+                  <dd className="text-[length:var(--text-xs)] font-medium text-[color:var(--text)]">{sourceLabel}</dd>
+                </div>
+                <div className="metadata-dl-row items-start">
+                  <dt className="inspector-field-label !normal-case !tracking-wide">Link</dt>
+                  <dd className="text-[length:var(--text-xs)] font-medium text-[color:var(--text)]">
+                    {modelLinkReady && project.modelUrl ? (
+                      <a
+                        href={project.modelUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="break-all font-mono text-[length:var(--text-2xs)] text-[color:var(--primary)] underline-offset-2 hover:underline"
+                      >
+                        Open model URL
+                      </a>
+                    ) : (
+                      <span className="text-[color:var(--text-muted)]">Not linked</span>
+                    )}
+                  </dd>
+                </div>
+              </dl>
+            </section>
+            <section className="inspector-section">
+              <h3 className="inspector-section-title">Status</h3>
+              <dl className="inspector-dl inspector-dl-muted">
+                <div className="metadata-dl-row first:pt-0">
+                  <dt className="inspector-field-label !normal-case !tracking-wide">Updated</dt>
+                  <dd className="font-mono text-[length:var(--text-2xs)] font-medium tabular-nums text-[color:var(--text)]">
+                    {project.lastUpdated}
+                  </dd>
+                </div>
+                <div className="metadata-dl-row items-center">
+                  <dt className="inspector-field-label !normal-case !tracking-wide">Connection</dt>
+                  <dd>
+                    <Badge size="compact" variant={modelLinkReady ? "success" : "warning"}>
+                      {connectionStatus}
+                    </Badge>
+                  </dd>
+                </div>
+              </dl>
+            </section>
+          </div>
+        </Card>
+      </div>
+
+      <ProjectSpatialRegistry projectId={project.id} files={spatialFiles} />
+
+      <div className="flex border-t border-[color:var(--border-subtle)] pt-[length:var(--space-3)]">
+        <Button href="/dashboard" variant="ghost" size="md">
+          ← Dashboard
+        </Button>
       </div>
     </PageContainer>
   );

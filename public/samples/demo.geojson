@@ -1,0 +1,21 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": { "name": "Demo site boundary" },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-87.625, 41.878],
+            [-87.608, 41.878],
+            [-87.608, 41.891],
+            [-87.625, 41.891],
+            [-87.625, 41.878]
+          ]
+        ]
+      }
+    }
+  ]
+}

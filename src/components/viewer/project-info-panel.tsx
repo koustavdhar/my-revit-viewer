@@ -18,8 +18,8 @@ export default function ProjectInfoPanel({
   onSelectElement,
 }: ProjectInfoPanelProps) {
   return (
-    <aside className="space-y-3">
-      <Card className="p-3">
+    <aside className="flex flex-col gap-[length:var(--layout-section-gap)]">
+      <Card className="p-[length:var(--card-padding)]">
         <p className="label-eyebrow">Project Info</p>
         <p className="mt-2 text-sm font-semibold text-slate-900">{project.name}</p>
         <div className="mt-2 grid grid-cols-[88px_1fr] gap-y-1.5 text-xs">
@@ -32,7 +32,7 @@ export default function ProjectInfoPanel({
           <p className="label-key">Source</p>
           <p className="font-medium text-slate-800">{project.modelSource ?? "—"}</p>
         </div>
-        <Divider className="my-2" />
+        <Divider className="my-[length:var(--space-2)]" />
         <div className="flex items-center justify-between">
           <Badge variant="neutral">Read-only</Badge>
           <Link href="/dashboard" className="text-xs font-medium text-slate-600 hover:text-slate-900">

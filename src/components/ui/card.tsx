@@ -8,9 +8,10 @@ export function Card({ children, className, muted = false }: CardProps) {
   return (
     <section
       className={[
-        "rounded-xl border",
-        muted ? "border-slate-200 bg-slate-50" : "border-slate-200 bg-white",
-        "shadow-none",
+        "rounded-[var(--radius-lg)] border shadow-[var(--shadow-xs)]",
+        muted
+          ? "border-[color:var(--border-subtle)] bg-[color:var(--surface-muted)]"
+          : "border-[color:var(--border)] bg-[color:var(--surface)]",
         className ?? "",
       ].join(" ")}
     >

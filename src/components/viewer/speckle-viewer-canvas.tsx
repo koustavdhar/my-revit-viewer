@@ -141,16 +141,16 @@ export default function SpeckleViewerCanvas({
   }
 
   return (
-    <div className="relative min-h-[620px] w-full overflow-hidden rounded-md border border-slate-200 bg-slate-950">
+    <div className="relative min-h-[620px] w-full overflow-hidden rounded-[var(--radius-md)] border border-[color:var(--border-strong)] bg-[#0b0f14]">
       {/* WebGL canvas mounts here — @speckle/viewer LegacyViewer attaches its canvas inside this div. */}
       <div ref={containerRef} className="h-full min-h-[620px] w-full" />
 
       {state === "loading" && (
-        <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-slate-900/40">
-          <div className="rounded-md border border-white/10 bg-slate-900/90 px-4 py-3 text-center shadow-lg">
-            <p className="label-eyebrow text-white">Loading</p>
-            <p className="mt-1 text-sm font-medium text-white">Preparing Speckle model</p>
-            <p className="mt-1 max-w-sm text-xs text-slate-300">
+        <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-black/45">
+          <div className="rounded-[var(--radius-md)] border border-white/12 bg-black/80 px-4 py-3 text-center shadow-[var(--shadow-md)]">
+            <p className="label-eyebrow text-white/90">Loading</p>
+            <p className="mt-1 text-[length:var(--text-sm)] font-bold text-white">Preparing Speckle model</p>
+            <p className="mt-1 max-w-sm text-[length:var(--text-xs)] text-white/75">
               Resolving URL and streaming geometry. This can take a moment on first load.
             </p>
           </div>
@@ -185,16 +185,16 @@ function getFriendlySpeckleErrorMessage(
 
 export function SpeckleAppIframeEmbed({ modelUrl }: { modelUrl: string }) {
   return (
-    <div className="flex min-h-[620px] flex-col overflow-hidden rounded-md border border-slate-200 bg-white">
-      <div className="flex items-center justify-between border-b border-slate-200 bg-slate-50 px-2.5 py-1.5">
-        <p className="text-[11px] font-medium text-slate-600">
+    <div className="flex min-h-[620px] flex-col overflow-hidden rounded-[var(--radius-md)] border border-[color:var(--border)] bg-[color:var(--surface)] shadow-[var(--shadow-xs)]">
+      <div className="flex items-center justify-between border-b border-[color:var(--border-subtle)] bg-[color:var(--surface-muted)] px-2.5 py-1.5">
+        <p className="text-[length:var(--text-2xs)] font-bold text-[color:var(--text-muted)]">
           Speckle app embed mode (project/model URL)
         </p>
         <a
           href={modelUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-[11px] font-medium text-slate-700 underline"
+          className="text-[length:var(--text-2xs)] font-bold text-[color:var(--primary)] underline-offset-2 hover:underline"
         >
           Open in new tab
         </a>
@@ -204,7 +204,7 @@ export function SpeckleAppIframeEmbed({ modelUrl }: { modelUrl: string }) {
       <iframe
         title="Speckle model preview"
         src={modelUrl}
-        className="h-[620px] w-full bg-white"
+        className="h-[620px] w-full bg-[color:var(--surface)]"
         loading="lazy"
       />
     </div>
@@ -219,11 +219,11 @@ export function ViewerPreviewFallback({
   message: string | null;
 }) {
   return (
-    <div className="flex min-h-[620px] flex-col rounded-md border border-dashed border-slate-300 bg-slate-50 p-4">
+    <div className="flex min-h-[620px] flex-col rounded-[var(--radius-md)] border border-dashed border-[color:var(--border-strong)] bg-[color:var(--surface-muted)] p-4">
       <div className="flex flex-1 flex-col items-center justify-center text-center">
-        <p className="label-eyebrow text-slate-600">Error</p>
-        <p className="mt-1 text-base font-medium text-slate-800">Model preview unavailable</p>
-        <p className="mt-2 max-w-md text-sm text-slate-600">
+        <p className="label-eyebrow text-[color:var(--text-muted)]">Error</p>
+        <p className="mt-1 text-[length:var(--text-base)] font-bold text-[color:var(--text)]">Model preview unavailable</p>
+        <p className="mt-2 max-w-md text-[length:var(--text-sm)] text-[color:var(--text-muted)]">
           {message ??
             "Embedded viewer is not available for this link. Open the model on Speckle in a new tab, or paste a valid stream/commit URL in mock data."}
         </p>
@@ -239,10 +239,12 @@ export function ViewerPreviewFallback({
             Open model in new tab
           </Button>
         ) : (
-          <p className="mt-4 text-xs text-slate-500">Add a `modelUrl` in `src/lib/mock-projects.ts`.</p>
+          <p className="mt-4 text-[length:var(--text-xs)] text-[color:var(--text-muted)]">
+            Add a <code className="font-mono text-[length:var(--text-2xs)]">modelUrl</code> in mock project data.
+          </p>
         )}
       </div>
-      <p className="mt-3 text-center text-[11px] text-slate-400">
+      <p className="mt-3 text-center text-[length:var(--text-2xs)] text-[color:var(--text-subtle)]">
         Future: full embed uses @speckle/viewer above; private streams need a token from your backend.
       </p>
     </div>

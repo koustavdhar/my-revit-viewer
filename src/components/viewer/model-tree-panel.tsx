@@ -2,6 +2,7 @@
 
 import { KeyboardEvent, useMemo, useState } from "react";
 import { ElementItem, TreeGroup } from "@/features/viewer/types";
+import { Input } from "@/components/ui";
 
 type ModelTreePanelProps = {
   elements: ElementItem[];
@@ -134,7 +135,7 @@ export default function ModelTreePanel({
     return (
       <>
         {text.slice(0, startIndex)}
-        <mark className="rounded bg-amber-100 px-0.5 text-slate-900">
+        <mark className="rounded-[var(--radius-xs)] bg-[color:var(--primary-100)] px-0.5 font-semibold text-[color:var(--text)]">
           {text.slice(startIndex, endIndex)}
         </mark>
         {text.slice(endIndex)}
@@ -143,31 +144,32 @@ export default function ModelTreePanel({
   }
 
   return (
-    <div className="rounded-lg border border-slate-200 bg-white p-2.5">
-      <p className="label-eyebrow">Model Tree</p>
-      <p className="mt-1 text-[11px] text-slate-500">Hierarchy placeholder</p>
-      <input
+    <div className="rounded-[var(--radius-lg)] border border-[color:var(--border)] bg-[color:var(--surface)] p-2.5 shadow-[var(--shadow-xs)]">
+      <p className="label-eyebrow">Model tree</p>
+      <p className="mt-1 text-[length:var(--text-2xs)] text-[color:var(--text-muted)]">Hierarchy placeholder</p>
+      <Input
         type="text"
         value={treeSearch}
         onChange={(event) => setTreeSearch(event.target.value)}
         placeholder="Search element, category, level..."
-        className="mt-2 w-full rounded-md border border-slate-300 bg-white px-2 py-1.5 text-xs outline-none ring-slate-300 placeholder:text-slate-400 focus:ring-2"
+        aria-label="Filter model tree"
+        className="mt-2"
       />
 
-      <div className="mt-2 space-y-1.5 text-sm" tabIndex={0} onKeyDown={handleTreeKeyDown}>
+      <div className="mt-2 space-y-1.5 text-[length:var(--text-xs)]" tabIndex={0} onKeyDown={handleTreeKeyDown}>
         {filteredModelTree.map((levelGroup) => (
-          <div key={levelGroup.level} className="rounded-md border border-slate-200 bg-slate-50">
+          <div key={levelGroup.level} className="rounded-[var(--radius-md)] border border-[color:var(--border-subtle)] bg-[color:var(--surface-muted)]">
             <button
               type="button"
               onClick={() => toggleLevel(levelGroup.level)}
-              className="flex w-full items-center justify-between px-2 py-1.5 text-left text-xs font-medium text-slate-800"
+              className="interactive-tree-header ui-focus-ring flex w-full cursor-pointer items-center justify-between rounded-t-[calc(var(--radius-md)-1px)] px-2 py-1.5 text-left text-[length:var(--text-xs)] font-bold text-[color:var(--text)] focus-visible:outline-none"
             >
               <span>{highlightMatch(levelGroup.level)}</span>
-              <span className="text-xs text-slate-500">{openLevels[levelGroup.level] ? "-" : "+"}</span>
+              <span className="text-[length:var(--text-xs)] text-[color:var(--text-muted)]">{openLevels[levelGroup.level] ? "-" : "+"}</span>
             </button>
 
             {openLevels[levelGroup.level] && (
-              <div className="space-y-1 border-t border-slate-200 p-1.5">
+              <div className="space-y-1 border-t border-[color:var(--border-subtle)] p-1.5">
                 {levelGroup.categories.map((categoryGroup) => {
                   const categoryKey = `${levelGroup.level}::${categoryGroup.name}`;
                   const isCategoryOpen = !!openCategories[categoryKey];
@@ -177,10 +179,10 @@ export default function ModelTreePanel({
                       <button
                         type="button"
                         onClick={() => toggleCategory(levelGroup.level, categoryGroup.name)}
-                        className="flex w-full items-center justify-between rounded px-1.5 py-1 text-left text-xs text-slate-700 hover:bg-white"
+                        className="interactive-tree-header ui-focus-ring flex w-full cursor-pointer items-center justify-between rounded-[var(--radius-sm)] px-1.5 py-1 text-left text-[length:var(--text-xs)] font-semibold text-[color:var(--text-muted)] focus-visible:outline-none"
                       >
                         <span>{highlightMatch(categoryGroup.name)}</span>
-                        <span className="text-xs text-slate-500">{isCategoryOpen ? "-" : "+"}</span>
+                        <span className="text-[length:var(--text-xs)] text-[color:var(--text-subtle)]">{isCategoryOpen ? "-" : "+"}</span>
                       </button>
 
                       {isCategoryOpen && (
@@ -190,11 +192,13 @@ export default function ModelTreePanel({
                               key={element.id}
                               type="button"
                               onClick={() => onSelectElement(element.id)}
-                              className={`w-full rounded px-1.5 py-1 text-left text-xs transition ${
+                              aria-current={selectedElementId === element.id ? "true" : undefined}
+                              className={[
+                                "ui-focus-ring w-full cursor-pointer rounded-[var(--radius-sm)] px-1.5 py-1 text-left text-[length:var(--text-xs)] transition-[color,background-color,border-color,box-shadow,transform] focus-visible:outline-none active:scale-[0.99]",
                                 selectedElementId === element.id
-                                  ? "bg-[color:var(--primary)] text-white"
-                                  : "text-slate-600 hover:bg-slate-100"
-                              }`}
+                                  ? "list-item-selected"
+                                  : "border border-transparent text-[color:var(--text-muted)] hover:border-[color:var(--border-subtle)] hover:bg-[color:color-mix(in_srgb,var(--primary-50)_28%,var(--surface-muted))] hover:text-[color:var(--text)]",
+                              ].join(" ")}
                             >
                               {highlightMatch(`${element.id} - ${element.type}`)}
                             </button>
@@ -210,12 +214,12 @@ export default function ModelTreePanel({
         ))}
 
         {filteredModelTree.length === 0 && (
-          <div className="rounded-md border border-dashed border-slate-300 bg-white px-2.5 py-3 text-xs text-slate-500">
+          <div className="rounded-[var(--radius-md)] border border-dashed border-[color:var(--border-strong)] bg-[color:var(--surface)] px-2.5 py-3 text-[length:var(--text-xs)] text-[color:var(--text-muted)]">
             No matching elements found.
           </div>
         )}
 
-        <p className="pt-0.5 text-[11px] text-slate-400">
+        <p className="pt-0.5 text-[length:var(--text-2xs)] text-[color:var(--text-subtle)]">
           Keyboard: Arrow Up/Down to move selection, Enter to confirm.
         </p>
       </div>

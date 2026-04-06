@@ -1,119 +1,603 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f5f7fa;
+  /*
+   * Color system — modern SaaS, AEC-friendly
+   * Primary: indigo (actions, focus, selection)
+   * Accent: teal (secondary highlights, GIS/geo, header blend)
+   * Semantic: emerald / amber / rose (status — restrained saturation)
+   */
+  --background: #f0f2f8;
   --surface: #ffffff;
-  --surface-muted: #f8fafc;
-  --border: #dbe2ea;
+  --surface-elevated: #ffffff;
+  --surface-muted: #f1f4fb;
+  --surface-sidebar: #f5f7fc;
+  --border: #d4dbe8;
+  --border-subtle: #e6eaf2;
+  --border-strong: #b8c4d4;
   --text: #0f172a;
-  --text-muted: #5b6776;
-  /* Refined vibrant enterprise palette (controlled use). */
-  --primary: #4f46e5; /* indigo-600 */
+  --text-muted: #475569;
+  --text-subtle: #64748b;
+  /* Primary — indigo */
+  --primary: #4f46e5;
   --primary-700: #4338ca;
+  --primary-600: #4f46e5;
   --primary-50: #eef2ff;
   --primary-100: #e0e7ff;
-  --accent: #0e7490; /* cyan-700 (muted) */
-  --accent-50: #ecfeff;
-  --success: #059669; /* emerald-600 */
+  /* Secondary accent — teal (pair with primary for gradients & GIS-adjacent UI) */
+  --accent: #0d9488;
+  --accent-700: #0f766e;
+  --accent-50: #f0fdfa;
+  --accent-100: #ccfbf1;
+  --accent-muted: #99f6e4;
+  /* Success — emerald */
+  --success: #059669;
+  --success-700: #047857;
   --success-50: #ecfdf5;
-  --warning: #d97706; /* amber-600 */
+  /* Warning — amber */
+  --warning: #d97706;
+  --warning-700: #b45309;
   --warning-50: #fffbeb;
-  --error: #e11d48; /* rose-600 */
+  /* Error — rose */
+  --error: #e11d48;
+  --error-700: #be123c;
   --error-50: #fff1f2;
+  /* Info aligns with primary */
+  --info: #4f46e5;
+  --info-50: #eef2ff;
+  /* Geometry */
+  --radius-xs: 0.25rem;
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.625rem;
+  --radius-xl: 0.75rem;
+  /* Spacing scale — 4px base (use for padding, gap, margin via length:var(--space-*)) */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  /* Elevation (restrained) */
+  --shadow-xs: 0 1px 0 rgb(15 23 42 / 0.04);
+  --shadow-sm: 0 1px 2px rgb(15 23 42 / 0.05), 0 1px 3px rgb(15 23 42 / 0.04);
+  --shadow-md: 0 4px 8px rgb(15 23 42 / 0.06), 0 2px 4px rgb(15 23 42 / 0.04);
+  --shadow-inset: inset 0 1px 0 rgb(255 255 255 / 0.6);
+  /* Shell layout — narrow rail + short header (technical workstation density) */
+  --shell-sidebar-width: 11.75rem;
+  --shell-header-height: 2.375rem;
+  --shell-accent-bar: 1px;
+  --shell-content-max: 80rem;
+  /* Page chrome — aligns to spacing scale (4px grid) */
+  --shell-content-pad-x: var(--space-4);
+  --shell-content-pad-y: var(--space-3);
+  /* Layout rhythm: stack sections, inline controls, card interiors */
+  --layout-section-gap: var(--space-3);
+  --layout-inline-gap: var(--space-2);
+  --layout-grid-gap: var(--space-3);
+  --card-padding: var(--space-3);
+  --card-padding-loose: var(--space-4);
+  --panel-padding-compact: var(--space-2);
+  /* Viewer workspace rails — narrow so the canvas dominates */
+  --viewer-rail-left: 9rem;
+  --viewer-rail-right: 9.25rem;
+  --viewer-rail-ribbon: 1.875rem;
+  /* Inset inside open rails (tighter than generic panels) */
+  --viewer-panel-inset: var(--space-1);
+  /* Viewer hierarchy: side chrome fades; canvas reads as the focal plane */
+  --viewer-panel-bg: color-mix(in srgb, var(--background) 88%, var(--surface-muted));
+  --viewer-panel-border: color-mix(in srgb, var(--border-subtle) 96%, var(--border));
+  --viewer-toolbar-bg: color-mix(in srgb, var(--background) 72%, var(--surface-muted));
+  --viewer-chrome-divider: color-mix(in srgb, var(--border-subtle) 82%, transparent);
+  /* Primary stage: soft lift + hairline edge (no heavy card stroke) */
+  --viewer-viewport-shadow: 0 0 0 1px color-mix(in srgb, var(--border-subtle) 70%, transparent),
+    0 2px 4px rgb(15 23 42 / 0.04), 0 12px 40px rgb(15 23 42 / 0.09);
+  /* Typography scale (rem) */
+  --text-2xs: 0.625rem;
+  --text-xs: 0.6875rem;
+  --text-sm: 0.8125rem;
+  --text-base: 0.875rem;
+  --text-md: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --focus-ring: 0 0 0 2px var(--surface), 0 0 0 4px color-mix(in srgb, var(--primary) 42%, transparent);
+  /* Subtle gradients (use sparingly) */
+  --gradient-header-accent: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--primary) 78%, white) 0%,
+    color-mix(in srgb, var(--accent) 65%, var(--primary)) 52%,
+    color-mix(in srgb, var(--accent) 55%, white) 100%
+  );
+  --gradient-selected-surface: linear-gradient(
+    165deg,
+    var(--primary-50) 0%,
+    color-mix(in srgb, var(--accent-50) 55%, var(--primary-50)) 100%
+  );
+  --gradient-card-subtle: linear-gradient(180deg, var(--surface) 0%, color-mix(in srgb, var(--primary-50) 22%, var(--surface)) 100%);
 }
 
 @theme inline {
   --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-foreground: var(--text);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #020617;
-    --surface: #0b1220;
-    --surface-muted: #111827;
-    --border: #1f2937;
-    --text: #e2e8f0;
-    --text-muted: #94a3b8;
-    --primary: #818cf8; /* indigo-400 */
+    --background: #0b0f17;
+    --surface: #111827;
+    --surface-elevated: #151f32;
+    --surface-muted: #0f1623;
+    --surface-sidebar: #0f1623;
+    --border: #2a3447;
+    --border-subtle: #1e293b;
+    --border-strong: #3d4a5f;
+    --text: #e8edf4;
+    --text-muted: #9aa5b8;
+    --text-subtle: #7c8aa0;
+    --primary: #818cf8;
     --primary-700: #6366f1;
-    --primary-50: #0b1220;
-    --primary-100: #111827;
-    --accent: #67e8f9; /* cyan-300 (less neon) */
-    --accent-50: #0b1220;
-    --success: #34d399; /* emerald-400 */
-    --success-50: #0b1220;
-    --warning: #fbbf24; /* amber-400 */
-    --warning-50: #0b1220;
-    --error: #fb7185; /* rose-400 */
-    --error-50: #0b1220;
+    --primary-600: #818cf8;
+    --primary-50: #1e1b4b;
+    --primary-100: #312e81;
+    --accent: #2dd4bf;
+    --accent-700: #14b8a6;
+    --accent-50: #0f172a;
+    --accent-100: #134e4a;
+    --accent-muted: #134e4a;
+    --success: #34d399;
+    --success-700: #10b981;
+    --success-50: #064e3b;
+    --warning: #fbbf24;
+    --warning-700: #f59e0b;
+    --warning-50: #422006;
+    --error: #fb7185;
+    --error-700: #f43f5e;
+    --error-50: #4c0519;
+    --info: #818cf8;
+    --info-50: #1e1b4b;
+    --shadow-xs: 0 1px 0 rgb(0 0 0 / 0.25);
+    --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.35);
+    --shadow-md: 0 8px 20px rgb(0 0 0 / 0.45);
+    --shadow-inset: inset 0 1px 0 rgb(255 255 255 / 0.04);
+    --focus-ring: 0 0 0 2px var(--surface), 0 0 0 4px color-mix(in srgb, var(--primary) 55%, transparent);
+    --gradient-header-accent: linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--primary) 70%, transparent) 0%,
+      color-mix(in srgb, var(--accent) 50%, var(--primary)) 50%,
+      color-mix(in srgb, var(--accent) 45%, transparent) 100%
+    );
+    --gradient-selected-surface: linear-gradient(
+      165deg,
+      color-mix(in srgb, var(--primary-50) 100%, transparent) 0%,
+      color-mix(in srgb, var(--accent-100) 35%, var(--primary-50)) 100%
+    );
+    --gradient-card-subtle: linear-gradient(180deg, var(--surface) 0%, color-mix(in srgb, var(--primary-50) 18%, var(--surface)) 100%);
+    --viewer-panel-bg: color-mix(in srgb, var(--background) 78%, var(--surface-muted));
+    --viewer-panel-border: color-mix(in srgb, var(--border-subtle) 88%, var(--border));
+    --viewer-toolbar-bg: color-mix(in srgb, var(--background) 62%, var(--surface-muted));
+    --viewer-chrome-divider: color-mix(in srgb, var(--border-subtle) 55%, transparent);
+    --viewer-viewport-shadow: 0 0 0 1px color-mix(in srgb, var(--border-subtle) 45%, transparent),
+      0 8px 32px rgb(0 0 0 / 0.42), 0 1px 0 rgb(255 255 255 / 0.05);
   }
 }
 
 body {
   background: var(--background);
   color: var(--text);
-  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
-  line-height: 1.5;
+  font-family: var(--font-geist-sans), system-ui, "Segoe UI", Arial, Helvetica, sans-serif;
+  font-size: var(--text-base);
+  line-height: 1.45;
+  letter-spacing: -0.01em;
 }
 
+/* Legacy alias — prefer .shell-content */
 .app-shell {
-  @apply mx-auto w-full max-w-7xl px-6;
+  @apply mx-auto w-full max-w-[var(--shell-content-max)] px-[length:var(--shell-content-pad-x)];
+}
+
+.shell-content {
+  @apply mx-auto w-full max-w-[var(--shell-content-max)] px-[length:var(--shell-content-pad-x)];
+}
+
+.enterprise-shell-root {
+  background: var(--background);
+}
+
+.enterprise-shell-main {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  min-height: 0;
+  min-width: 0;
+  background: var(--background);
+}
+
+.enterprise-shell-header {
+  height: var(--shell-header-height);
+  min-height: var(--shell-header-height);
+  border-bottom: 1px solid var(--border);
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--surface) 96%, var(--primary-50)) 0%,
+    color-mix(in srgb, var(--surface) 94%, transparent) 100%
+  );
+  backdrop-filter: blur(10px);
+  box-shadow: var(--shadow-xs);
+}
+
+.enterprise-inspector-rail {
+  border-left: 1px solid var(--border);
+  background: var(--surface);
+  min-width: 0;
 }
 
 .panel {
-  @apply rounded-xl border bg-white;
-  border-color: var(--border);
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--border);
   background: var(--surface);
+  box-shadow: var(--shadow-xs);
 }
 
 .panel-muted {
-  @apply rounded-xl border;
-  border-color: var(--border);
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--border-subtle);
   background: var(--surface-muted);
 }
 
-.section-title {
-  @apply text-3xl font-semibold tracking-tight text-slate-900 md:text-4xl;
+.ui-focus-ring:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
 }
 
-/* Typography scale */
+/* Consistent menu caret without default marker */
+summary::-webkit-details-marker {
+  display: none;
+}
+
+/* Viewer route: fill app main without nested page scroll */
+.viewer-route-layout {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.viewer-workspace-root:fullscreen {
+  padding: 0.25rem;
+  background: var(--background);
+}
+
+/* Viewer shell: muted rails + elevated viewport (see viewer-shell.tsx) */
+.viewer-side-panel {
+  background: var(--viewer-panel-bg);
+  border-color: var(--viewer-panel-border) !important;
+  box-shadow: none;
+}
+
+.viewer-top-chrome {
+  background: var(--viewer-toolbar-bg);
+  border-color: var(--viewer-panel-border) !important;
+  box-shadow: none;
+}
+
+/* Primary stage — workspace surface, not a marketing card */
+.viewer-viewport-stage {
+  min-height: 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  background: var(--surface);
+  border-radius: 0;
+  box-shadow: none;
+}
+
+/* Canvas fills the stage — no inset frame */
+.viewer-viewport-canvas-host {
+  flex: 1 1 auto;
+  min-height: 0;
+  min-width: 0;
+  background: transparent;
+}
+
+/* Ribbon strip for navigation / inspection tools (CAD-style) */
+.viewer-toolbar-ribbon {
+  background: color-mix(in srgb, var(--surface-muted) 45%, var(--background));
+}
+
+/* Scene mode segmented control — active tab reads as the current workspace */
+.viewer-scene-segment button:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+  z-index: 1;
+}
+
+.viewer-scene-segment-active:focus-visible {
+  box-shadow:
+    inset 0 -2px 0 0 color-mix(in srgb, var(--primary-700) 85%, black),
+    0 0 0 2px var(--surface),
+    0 0 0 4px color-mix(in srgb, var(--primary) 45%, transparent) !important;
+}
+
+/* Collapsed side rails read as inactive chrome */
+.viewer-side-panel.viewer-panel-collapsed {
+  opacity: 0.88;
+}
+
+/* Active viewer tool — inset bar reads like CAD / Pro ribbon selection */
+.viewer-toolbar-tool-active {
+  box-shadow: inset 0 -2px 0 0 rgb(255 255 255 / 0.88);
+}
+
+@media (prefers-color-scheme: dark) {
+  .viewer-toolbar-tool-active {
+    box-shadow: inset 0 -2px 0 0 rgb(255 255 255 / 0.35);
+  }
+
+}
+
+.section-title {
+  @apply text-2xl font-bold tracking-tight text-[color:var(--text)] md:text-3xl;
+}
+
+/* Typography scale — page/marketing headings, slightly tighter than before */
 .text-heading-xl {
-  @apply text-3xl font-semibold tracking-tight md:text-4xl;
+  @apply text-2xl font-bold tracking-tight text-[color:var(--text)] md:text-3xl;
 }
 
 .text-heading-lg {
-  @apply text-2xl font-semibold tracking-tight md:text-3xl;
+  @apply text-xl font-bold tracking-tight text-[color:var(--text)] md:text-2xl;
 }
 
 .text-heading-md {
-  @apply text-xl font-semibold tracking-tight md:text-2xl;
+  @apply text-lg font-bold tracking-tight text-[color:var(--text)] md:text-xl;
 }
 
 .text-subheading {
-  @apply text-sm font-medium text-slate-700;
+  @apply text-[length:var(--text-sm)] font-semibold text-[color:var(--text-muted)];
 }
 
 .text-body {
-  @apply text-sm text-slate-700;
+  @apply text-[length:var(--text-sm)] text-[color:var(--text)];
 }
 
 .text-caption {
-  @apply text-xs text-slate-500;
+  @apply text-[length:var(--text-xs)] text-[color:var(--text-muted)];
 }
 
 .label-eyebrow {
-  @apply text-xs font-semibold uppercase tracking-[0.14em] text-slate-500;
+  font-size: var(--text-2xs);
+  font-weight: 700;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  line-height: 1.2;
 }
 
 .label-key {
-  @apply text-xs font-medium uppercase tracking-[0.08em] text-slate-500;
+  font-size: var(--text-2xs);
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  line-height: 1.2;
 }
 
 .label-table {
-  @apply text-xs uppercase tracking-[0.1em] text-slate-500;
+  font-size: var(--text-2xs);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  line-height: 1.2;
+}
+
+/* Card section titles — consistent with dashboard / integration pages */
+.card-section-title {
+  font-size: var(--text-sm);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+  color: var(--text);
+}
+
+/* Form labels — single rhythm for auth + settings */
+.form-field-label {
+  display: block;
+  margin-bottom: var(--space-1);
+  font-size: var(--text-2xs);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+/* Tree / list selection — high contrast + left accent (read as “current row”) */
+.list-item-selected {
+  border: 1px solid color-mix(in srgb, var(--primary) 52%, var(--primary-100));
+  background: var(--gradient-selected-surface);
+  color: var(--text);
+  font-weight: 700;
+  box-shadow:
+    inset 3px 0 0 0 var(--primary),
+    var(--shadow-sm),
+    0 0 0 1px color-mix(in srgb, var(--primary) 32%, transparent),
+    inset 0 1px 0 rgb(255 255 255 / 0.45);
+}
+
+@media (prefers-color-scheme: dark) {
+  .list-item-selected {
+    box-shadow:
+      inset 3px 0 0 0 var(--primary),
+      var(--shadow-sm),
+      0 0 0 1px color-mix(in srgb, var(--primary) 40%, transparent),
+      inset 0 1px 0 rgb(255 255 255 / 0.06);
+  }
+}
+
+/* GIS layer row — hover when not the selected layer */
+.interactive-layer-row {
+  transition:
+    border-color 0.15s ease,
+    background-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.interactive-layer-row:not(.list-item-selected):not(.layer-row-zoom-hint):hover {
+  border-color: var(--border-strong);
+  background: color-mix(in srgb, var(--primary-50) 22%, var(--surface));
+  box-shadow: var(--shadow-xs);
+}
+
+.interactive-layer-row.layer-row-zoom-hint:not(.list-item-selected):hover {
+  background: color-mix(in srgb, var(--accent-50) 20%, var(--surface));
+  box-shadow: var(--shadow-sm);
+}
+
+/* Last “fit to layer” target — distinct from feature selection */
+.layer-row-zoom-hint {
+  border-color: color-mix(in srgb, var(--accent) 42%, var(--border)) !important;
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--accent) 28%, transparent),
+    var(--shadow-xs);
+}
+
+/* Tree / accordion headers — clear affordance */
+.interactive-tree-header {
+  cursor: pointer;
+  transition: background-color 0.12s ease, color 0.12s ease;
+}
+
+.interactive-tree-header:hover {
+  background: color-mix(in srgb, var(--surface) 85%, var(--primary-50));
+  color: var(--text);
+}
+
+.interactive-tree-header:active {
+  background: color-mix(in srgb, var(--surface-muted) 60%, var(--primary-50));
+}
+
+/* BIM/GIS inspector attribute rows (shared with project metadata column width) */
+.inspector-attr-row {
+  display: grid;
+  grid-template-columns: minmax(5.5rem, 7rem) 1fr;
+  column-gap: var(--space-2);
+  row-gap: var(--space-1);
+  align-items: baseline;
+  padding-bottom: var(--space-1);
+  margin-bottom: var(--space-1);
+  border-bottom: 1px solid color-mix(in srgb, var(--border-subtle) 88%, transparent);
+}
+
+.inspector-attr-row:last-child {
+  border-bottom-width: 0;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+/* Inspector panels — dense data surface (no card frames on value lists) */
+.inspector-root {
+  display: flex;
+  min-height: 0;
+  flex: 1 1 auto;
+  flex-direction: column;
+  background: transparent;
+}
+
+.inspector-panel-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.inspector-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.inspector-section-title {
+  margin: 0;
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  line-height: 1.2;
+  padding-bottom: var(--space-1);
+  border-bottom: 1px solid color-mix(in srgb, var(--border-subtle) 92%, var(--border));
+}
+
+.inspector-field-label {
+  font-size: var(--text-2xs);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  line-height: 1.3;
+}
+
+.inspector-dl {
+  margin: 0;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  padding: 0;
+}
+
+.inspector-dl-muted {
+  border-radius: var(--radius-xs);
+  border-left: 2px solid color-mix(in srgb, var(--border) 55%, var(--border-subtle));
+  background: color-mix(in srgb, var(--surface-muted) 42%, transparent);
+  padding: var(--space-2);
+}
+
+.inspector-dl-gap {
+  margin: var(--space-2) 0;
+  height: 0;
+  border: 0;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.inspector-attr-row--key {
+  background: color-mix(in srgb, var(--primary-50) 32%, transparent);
+  border-radius: var(--radius-xs);
+  padding: var(--space-1);
+  margin-bottom: var(--space-1);
+  border-bottom-color: color-mix(in srgb, var(--primary) 10%, var(--border-subtle)) !important;
+}
+
+.inspector-attr-row--key .inspector-field-label {
+  color: var(--text);
+}
+
+@media (prefers-color-scheme: dark) {
+  .inspector-attr-row--key {
+    background: color-mix(in srgb, var(--primary-50) 55%, var(--surface));
+  }
+}
+
+/* Definition lists — project metadata, inspectors (aligned label column) */
+.metadata-dl-row {
+  display: grid;
+  grid-template-columns: minmax(6rem, 7.75rem) 1fr;
+  column-gap: var(--space-3);
+  row-gap: var(--space-1);
+  align-items: baseline;
+  padding-top: var(--space-2);
+  padding-bottom: var(--space-2);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.metadata-dl-row:last-child {
+  border-bottom-width: 0;
+  padding-bottom: 0;
+}
+
+.metadata-dl-row:first-child {
+  padding-top: 0;
 }
 
 .accent-border {
@@ -121,8 +605,15 @@ body {
 }
 
 .surface-primary {
-  background: var(--primary-50);
-  border-color: var(--primary-100);
+  background: var(--gradient-selected-surface);
+  border-color: color-mix(in srgb, var(--primary) 45%, var(--primary-100));
+  box-shadow: var(--shadow-xs), 0 0 0 1px color-mix(in srgb, var(--primary) 22%, transparent);
+}
+
+/* Selected / emphasized cards — very subtle indigo wash */
+.card-surface-selected {
+  background: var(--gradient-card-subtle);
+  border-color: color-mix(in srgb, var(--primary) 22%, var(--border));
 }
 
 .surface-accent {
@@ -146,5 +637,56 @@ body {
 }
 
 .header-gradient-accent {
-  background: linear-gradient(90deg, var(--primary), var(--accent));
+  height: var(--shell-accent-bar);
+  background: var(--gradient-header-accent);
+}
+
+/* Modal / drawer backdrop */
+.enterprise-dialog::backdrop,
+.enterprise-sheet::backdrop {
+  background: color-mix(in srgb, var(--text) 35%, transparent);
+  backdrop-filter: blur(2px);
+}
+
+.enterprise-dialog {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  box-shadow: var(--shadow-md);
+  padding: 0;
+  color: var(--text);
+}
+
+.enterprise-sheet {
+  border: 1px solid var(--border);
+  background: var(--surface);
+  box-shadow: var(--shadow-md);
+  padding: 0;
+  color: var(--text);
+}
+
+/* Leaflet GeoJSON labels — minimal chips (not interactive; avoids flashy map UI). */
+.leaflet-container .gis-map-label-root {
+  background: transparent !important;
+  border: none !important;
+}
+
+.leaflet-container .gis-map-label-chip {
+  display: inline-block;
+  max-width: 10rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding: 2px 6px;
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--text);
+  background: color-mix(in srgb, var(--surface) 94%, transparent);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xs);
+  box-shadow: 0 1px 2px rgb(15 23 42 / 0.06);
+  transform: translate(-50%, -100%);
+  margin-top: -4px;
+  pointer-events: none;
 }

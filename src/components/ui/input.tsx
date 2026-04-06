@@ -7,8 +7,12 @@ export function Input(props: InputProps) {
   return (
     <input
       className={[
-        "w-full rounded-md border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-900",
-        "placeholder:text-slate-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-300",
+        "ui-focus-ring h-7 w-full cursor-text rounded-[var(--radius-sm)] border border-[color:var(--border-strong)]",
+        "bg-[color:var(--surface)] px-2 text-[length:var(--text-xs)] text-[color:var(--text)] shadow-[var(--shadow-xs)]",
+        "transition-[border-color,box-shadow] placeholder:text-[color:var(--text-subtle)]",
+        "hover:border-[color:color-mix(in_srgb,var(--primary)_22%,var(--border-strong))]",
+        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--primary)]",
+        "disabled:cursor-not-allowed disabled:opacity-60",
         className ?? "",
       ].join(" ")}
       {...rest}

@@ -1,0 +1,117 @@
+{
+  "type": "FeatureCollection",
+  "name": "Lakeside campus planning parcels (sample)",
+  "features": [
+    {
+      "type": "Feature",
+      "id": "parcel-N01",
+      "properties": {
+        "parcel_id": "N01",
+        "land_use": "Academic core",
+        "zoning": "PD-Institutional",
+        "acres": 4.2,
+        "address": "1200 N Lakeside Dr (fictional)"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-87.622, 41.882],
+            [-87.616, 41.882],
+            [-87.616, 41.886],
+            [-87.622, 41.886],
+            [-87.622, 41.882]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "parcel-N02",
+      "properties": {
+        "parcel_id": "N02",
+        "land_use": "Housing / mixed-use",
+        "zoning": "PD-Mixed",
+        "acres": 2.8,
+        "address": "1210 N Lakeside Dr (fictional)"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-87.616, 41.882],
+            [-87.611, 41.882],
+            [-87.611, 41.886],
+            [-87.616, 41.886],
+            [-87.616, 41.882]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "parcel-S01",
+      "properties": {
+        "parcel_id": "S01",
+        "land_use": "Open space / stormwater",
+        "zoning": "OS-1",
+        "acres": 6.1,
+        "address": "Lakeside buffer (fictional)"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-87.622, 41.878],
+            [-87.608, 41.878],
+            [-87.608, 41.881],
+            [-87.622, 41.881],
+            [-87.622, 41.878]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "parcel-E01",
+      "properties": {
+        "parcel_id": "E01",
+        "land_use": "Parking / circulation",
+        "zoning": "PD-Institutional",
+        "acres": 1.4,
+        "address": "East garage pad (fictional)"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-87.608, 41.881],
+            [-87.604, 41.881],
+            [-87.604, 41.884],
+            [-87.608, 41.884],
+            [-87.608, 41.881]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "path-main",
+      "properties": {
+        "parcel_id": "ROW-01",
+        "land_use": "Pedestrian spine",
+        "zoning": "ROW",
+        "acres": 0.35,
+        "address": "Central walk (fictional)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [-87.618, 41.8785],
+          [-87.615, 41.882],
+          [-87.612, 41.885]
+        ]
+      }
+    }
+  ]
+}

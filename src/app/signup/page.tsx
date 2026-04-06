@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Button, Card, Input, PageContainer, SectionHeader } from "@/components/ui";
+import { Button, Card, Input, PageContainer } from "@/components/ui";
 
 type FormErrors = {
   fullName?: string;
@@ -54,102 +54,120 @@ export default function SignupPage() {
   }
 
   return (
-    <PageContainer className="items-center justify-center py-10">
-      <Card className="w-full max-w-md p-6 md:p-7">
-        <p className="label-eyebrow mb-3 text-center">My Revit Viewer</p>
-        <SectionHeader
-          eyebrow="Workspace Access"
-          title="Create Account"
-          description="Set up your enterprise viewer account for demo access."
-          className="mb-5"
-          size="compact"
-        />
-
-        <form className="space-y-3.5" onSubmit={handleSignup} noValidate>
-          <div>
-            <label className="mb-1 block text-sm font-medium text-slate-700">
-              Full Name
-            </label>
-            <Input
-              type="text"
-              placeholder="Jane Smith"
-              value={fullName}
-              onChange={(event) => {
-                setFullName(event.target.value);
-                if (errors.fullName) setErrors((prev) => ({ ...prev, fullName: undefined }));
-              }}
-              aria-invalid={!!errors.fullName}
-            />
-            {errors.fullName ? <p className="mt-1 text-xs text-rose-700">{errors.fullName}</p> : null}
-          </div>
-
-          <div>
-            <label className="mb-1 block text-sm font-medium text-slate-700">
-              Work Email
-            </label>
-            <Input
-              type="email"
-              placeholder="name@company.com"
-              value={email}
-              onChange={(event) => {
-                setEmail(event.target.value);
-                if (errors.email) setErrors((prev) => ({ ...prev, email: undefined }));
-              }}
-              aria-invalid={!!errors.email}
-            />
-            {errors.email ? <p className="mt-1 text-xs text-rose-700">{errors.email}</p> : null}
-          </div>
-
-          <div>
-            <label className="mb-1 block text-sm font-medium text-slate-700">
-              Password
-            </label>
-            <Input
-              type="password"
-              placeholder="At least 6 characters"
-              value={password}
-              onChange={(event) => {
-                setPassword(event.target.value);
-                if (errors.password || errors.confirmPassword) {
-                  setErrors((prev) => ({ ...prev, password: undefined, confirmPassword: undefined }));
-                }
-              }}
-              aria-invalid={!!errors.password}
-            />
-            {errors.password ? <p className="mt-1 text-xs text-rose-700">{errors.password}</p> : null}
-          </div>
-
-          <div>
-            <label className="mb-1 block text-sm font-medium text-slate-700">
-              Confirm Password
-            </label>
-            <Input
-              type="password"
-              placeholder="Re-enter password"
-              value={confirmPassword}
-              onChange={(event) => {
-                setConfirmPassword(event.target.value);
-                if (errors.confirmPassword) setErrors((prev) => ({ ...prev, confirmPassword: undefined }));
-              }}
-              aria-invalid={!!errors.confirmPassword}
-            />
-            {errors.confirmPassword ? (
-              <p className="mt-1 text-xs text-rose-700">{errors.confirmPassword}</p>
-            ) : null}
-          </div>
-
-          <Button type="submit" variant="primary" className="flex w-full">
-            Create Account (Demo)
-          </Button>
-
-          <p className="text-center text-xs text-slate-600">
-            Already registered?{" "}
-            <Link href="/login" className="font-medium text-slate-800 hover:text-slate-950">
-              Sign in
-            </Link>
+    <PageContainer className="flex min-h-[calc(100dvh-6rem)] items-center justify-center">
+      <div className="w-full max-w-[22rem]">
+        <Card className="border-[color:var(--border)] p-[length:var(--card-padding-loose)] shadow-[var(--shadow-sm)]">
+          <p className="text-center text-[length:var(--text-2xs)] font-bold uppercase tracking-[0.14em] text-[color:var(--text-subtle)]">
+            Workspace access
           </p>
-        </form>
-      </Card>
+          <h1 className="mt-2 text-center text-[length:var(--text-md)] font-bold tracking-tight text-[color:var(--text)]">
+            Create account
+          </h1>
+          <p className="mt-1 text-center text-[length:var(--text-xs)] text-[color:var(--text-muted)]">
+            Demo registration — same cookie-based session as sign-in.
+          </p>
+
+          <form className="mt-[length:var(--space-3)] flex flex-col gap-[length:var(--layout-section-gap)]" onSubmit={handleSignup} noValidate>
+            <div>
+              <label htmlFor="signup-name" className="form-field-label">
+                Full name
+              </label>
+              <Input
+                id="signup-name"
+                type="text"
+                placeholder="Jane Smith"
+                value={fullName}
+                onChange={(event) => {
+                  setFullName(event.target.value);
+                  if (errors.fullName) setErrors((prev) => ({ ...prev, fullName: undefined }));
+                }}
+                aria-invalid={!!errors.fullName}
+              />
+              {errors.fullName ? (
+                <p className="mt-0.5 text-[length:var(--text-2xs)] text-[color:var(--error)]">{errors.fullName}</p>
+              ) : null}
+            </div>
+
+            <div>
+              <label htmlFor="signup-email" className="form-field-label">
+                Email
+              </label>
+              <Input
+                id="signup-email"
+                type="email"
+                placeholder="name@company.com"
+                value={email}
+                onChange={(event) => {
+                  setEmail(event.target.value);
+                  if (errors.email) setErrors((prev) => ({ ...prev, email: undefined }));
+                }}
+                aria-invalid={!!errors.email}
+              />
+              {errors.email ? (
+                <p className="mt-0.5 text-[length:var(--text-2xs)] text-[color:var(--error)]">{errors.email}</p>
+              ) : null}
+            </div>
+
+            <div>
+              <label htmlFor="signup-password" className="form-field-label">
+                Password
+              </label>
+              <Input
+                id="signup-password"
+                type="password"
+                placeholder="At least 6 characters"
+                value={password}
+                onChange={(event) => {
+                  setPassword(event.target.value);
+                  if (errors.password || errors.confirmPassword) {
+                    setErrors((prev) => ({ ...prev, password: undefined, confirmPassword: undefined }));
+                  }
+                }}
+                aria-invalid={!!errors.password}
+              />
+              {errors.password ? (
+                <p className="mt-0.5 text-[length:var(--text-2xs)] text-[color:var(--error)]">{errors.password}</p>
+              ) : null}
+            </div>
+
+            <div>
+              <label htmlFor="signup-confirm" className="form-field-label">
+                Confirm password
+              </label>
+              <Input
+                id="signup-confirm"
+                type="password"
+                placeholder="Re-enter password"
+                value={confirmPassword}
+                onChange={(event) => {
+                  setConfirmPassword(event.target.value);
+                  if (errors.confirmPassword) setErrors((prev) => ({ ...prev, confirmPassword: undefined }));
+                }}
+                aria-invalid={!!errors.confirmPassword}
+              />
+              {errors.confirmPassword ? (
+                <p className="mt-0.5 text-[length:var(--text-2xs)] text-[color:var(--error)]">
+                  {errors.confirmPassword}
+                </p>
+              ) : null}
+            </div>
+
+            <Button type="submit" variant="primary" className="flex w-full" size="md">
+              Create account (demo)
+            </Button>
+
+            <p className="text-center text-[length:var(--text-2xs)] text-[color:var(--text-muted)]">
+              Already registered?{" "}
+              <Link
+                href="/login"
+                className="font-bold text-[color:var(--primary)] underline-offset-2 hover:underline"
+              >
+                Sign in
+              </Link>
+            </p>
+          </form>
+        </Card>
+      </div>
     </PageContainer>
   );
 }

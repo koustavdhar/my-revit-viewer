@@ -2,7 +2,14 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   // Speckle packages use subpath imports like `#lodash`; map them for Next/Turbopack.
-  transpilePackages: ["@speckle/viewer", "@speckle/shared", "@speckle/objectloader2"],
+  transpilePackages: [
+    "@speckle/viewer",
+    "@speckle/shared",
+    "@speckle/objectloader2",
+    "@thatopen/components",
+    "@thatopen/fragments",
+    "web-ifc",
+  ],
   turbopack: {
     resolveAlias: {
       "#lodash": "lodash-es",

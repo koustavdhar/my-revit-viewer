@@ -2,27 +2,25 @@ import { Button, Card, PageContainer, SectionHeader } from "@/components/ui";
 
 export default function SettingsPage() {
   return (
-    <PageContainer className="py-10">
-      <div className="w-full">
-        <SectionHeader
-          eyebrow="Workspace"
-          title="Settings"
-          description="Placeholder settings page for future enterprise configuration."
-          className="mb-6"
-          size="compact"
-        />
-        <Card className="p-6">
-          <p className="text-sm text-slate-600">
-            This section is intentionally minimal in v1. Add team settings,
-            permissions, and integration settings in future versions.
-          </p>
-          <div className="mt-4">
-            <Button href="/dashboard" variant="secondary">
-              Back to Dashboard
-            </Button>
-          </div>
-        </Card>
-      </div>
+    <PageContainer>
+      <SectionHeader
+        eyebrow="Workspace"
+        title="Settings"
+        description="Placeholder for enterprise configuration — teams, permissions, and integrations."
+        className="border-b border-[color:var(--border-subtle)] pb-[length:var(--space-3)]"
+        size="compact"
+      />
+      <Card className="border-[color:var(--border-subtle)] p-[length:var(--card-padding)] shadow-[var(--shadow-xs)]">
+        <p className="text-[length:var(--text-sm)] leading-relaxed text-[color:var(--text-muted)]">
+          This area is intentionally minimal in v1. Extend with SSO, roles, data residency, and connector credentials
+          as the product matures.
+        </p>
+        <div className="mt-[length:var(--space-3)]">
+          <Button href="/dashboard" variant="secondary" size="md">
+            Back to dashboard
+          </Button>
+        </div>
+      </Card>
     </PageContainer>
   );
 }

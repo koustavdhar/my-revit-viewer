@@ -26,53 +26,54 @@ export default function Home() {
 
   return (
     <main className="flex flex-1 flex-col">
-      <PageContainer className="py-14 md:py-18">
-        <div className="grid gap-8 rounded-2xl border border-slate-200 bg-gradient-to-b from-white to-slate-50 p-8 md:grid-cols-[1.2fr_0.8fr] md:p-12">
+      <PageContainer className="py-[length:var(--space-8)] md:py-10">
+        <div className="grid gap-[length:var(--space-5)] rounded-[var(--radius-xl)] border border-[color:var(--border)] bg-[color:var(--surface)] p-[length:var(--space-5)] shadow-[var(--shadow-sm)] md:grid-cols-[1.2fr_0.8fr] md:gap-[length:var(--space-6)] md:p-[length:var(--space-8)]">
           <div>
-            <p className="label-eyebrow mb-3">AEC SaaS Platform</p>
+            <p className="label-eyebrow mb-[length:var(--space-3)]">AEC workspace</p>
             <h1 className="section-title max-w-2xl">
-              Premium model review experience for Revit projects
+              Model review for Revit and spatial data programs
             </h1>
-            <p className="mt-5 max-w-xl text-base leading-7 text-slate-600">
-              My Revit Viewer gives teams a clean browser interface to open models,
-              review project context, and inspect element data without editing risk.
+            <p className="mt-5 max-w-xl text-[length:var(--text-base)] leading-relaxed text-[color:var(--text-muted)]">
+              A disciplined browser interface to open models, review project context, and inspect element and GIS
+              attributes without edit risk.
             </p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <Button href="/login" variant="primary" className="px-5">
-                Start Demo
+            <div className="mt-[length:var(--space-6)] flex flex-wrap gap-[length:var(--layout-inline-gap)]">
+              <Button href="/login" variant="primary" size="md" className="px-4">
+                Start demo
               </Button>
-              <Button href="/dashboard" variant="secondary" className="px-5">
-                Explore Dashboard
+              <Button href="/dashboard" variant="secondary" size="md" className="px-4">
+                Open dashboard
               </Button>
             </div>
           </div>
-          <Card className="p-6">
-            <p className="label-eyebrow mb-4">Version 1 Scope</p>
-            <ul className="space-y-3 text-sm leading-6 text-slate-700">
-              <li>Read-only model viewing</li>
+          <Card className="border-[color:var(--border-subtle)] p-[length:var(--card-padding-loose)] md:p-[length:var(--space-5)]">
+            <p className="label-eyebrow mb-[length:var(--space-3)]">Version 1 scope</p>
+            <ul className="flex flex-col gap-[length:var(--space-2)] text-[length:var(--text-sm)] leading-relaxed text-[color:var(--text)]">
+              <li>Read-only model and map viewing</li>
               <li>Project dashboard and detail pages</li>
               <li>No editing, comments, or clash workflows</li>
               <li>No AI assistant in this version</li>
             </ul>
-            <div className="mt-6 rounded-xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-600">
-              Designed for controlled BIM visibility across project stakeholders.
+            <div className="mt-[length:var(--space-4)] rounded-[var(--radius-md)] border border-[color:var(--border-subtle)] bg-[color:var(--surface-muted)] p-[length:var(--card-padding)] text-[length:var(--text-sm)] text-[color:var(--text-muted)]">
+              Designed for controlled BIM and GIS visibility across project stakeholders.
             </div>
           </Card>
         </div>
       </PageContainer>
 
-      <PageContainer className="pb-8">
-        <div className="mb-6">
-          <p className="label-eyebrow">Feature Highlights</p>
-          <h2 className="mt-2 text-2xl font-semibold tracking-tight text-slate-900">
-            Built for practical model review
-          </h2>
+      <PageContainer className="pb-[length:var(--space-6)]">
+        <div className="mb-[length:var(--space-4)]">
+          <p className="label-eyebrow">Capabilities</p>
+          <h2 className="mt-2 text-heading-md">Built for practical review</h2>
         </div>
-        <div className="grid gap-4 md:grid-cols-2">
+        <div className="grid gap-[length:var(--layout-grid-gap)] md:grid-cols-2">
           {features.map((feature) => (
-            <Card key={feature.title} className="p-6">
-              <div className="mb-4 h-9 w-9 rounded-lg bg-slate-100 p-2">
-                <svg viewBox="0 0 20 20" fill="none" className="h-full w-full text-slate-700">
+            <Card
+              key={feature.title}
+              className="border-[color:var(--border-subtle)] p-[length:var(--card-padding-loose)] md:p-[length:var(--space-5)]"
+            >
+              <div className="mb-[length:var(--space-3)] flex h-9 w-9 items-center justify-center rounded-[var(--radius-md)] border border-[color:var(--border-subtle)] bg-[color:var(--surface-muted)] text-[color:var(--text-muted)]">
+                <svg viewBox="0 0 20 20" fill="none" className="h-5 w-5" aria-hidden>
                   <path
                     d="M4 5.5h12M4 10h12M4 14.5h8"
                     stroke="currentColor"
@@ -81,8 +82,8 @@ export default function Home() {
                   />
                 </svg>
               </div>
-              <h3 className="text-lg font-semibold text-slate-900">{feature.title}</h3>
-              <p className="mt-2 text-sm leading-6 text-slate-600">
+              <h3 className="text-[length:var(--text-md)] font-bold text-[color:var(--text)]">{feature.title}</h3>
+              <p className="mt-2 text-[length:var(--text-sm)] leading-relaxed text-[color:var(--text-muted)]">
                 {feature.description}
               </p>
             </Card>
@@ -90,52 +91,50 @@ export default function Home() {
         </div>
       </PageContainer>
 
-      <PageContainer className="py-10">
-        <Card className="p-8 md:p-10">
-          <p className="label-eyebrow">How It Works</p>
-          <div className="mt-5 grid gap-4 md:grid-cols-3">
-            <div className="rounded-xl border border-slate-200 bg-slate-50 p-5">
-              <p className="text-sm font-semibold text-slate-900">1. Sign In</p>
-              <p className="mt-2 text-sm text-slate-600">
-                Access your workspace through a secure web login.
+      <PageContainer className="py-[length:var(--space-6)]">
+        <Card className="border-[color:var(--border-subtle)] p-[length:var(--space-5)] md:p-[length:var(--space-6)]">
+          <p className="label-eyebrow">How it works</p>
+          <div className="mt-[length:var(--space-4)] grid gap-[length:var(--layout-grid-gap)] md:grid-cols-3">
+            <div className="rounded-[var(--radius-md)] border border-[color:var(--border-subtle)] bg-[color:var(--surface-muted)] p-[length:var(--card-padding-loose)]">
+              <p className="text-[length:var(--text-sm)] font-bold text-[color:var(--text)]">1. Sign in</p>
+              <p className="mt-2 text-[length:var(--text-sm)] leading-relaxed text-[color:var(--text-muted)]">
+                Access the workspace through the demo login.
               </p>
             </div>
-            <div className="rounded-xl border border-slate-200 bg-slate-50 p-5">
-              <p className="text-sm font-semibold text-slate-900">2. Open Project</p>
-              <p className="mt-2 text-sm text-slate-600">
-                Select a project from the dashboard control panel.
+            <div className="rounded-[var(--radius-md)] border border-[color:var(--border-subtle)] bg-[color:var(--surface-muted)] p-[length:var(--card-padding-loose)]">
+              <p className="text-[length:var(--text-sm)] font-bold text-[color:var(--text)]">2. Open project</p>
+              <p className="mt-2 text-[length:var(--text-sm)] leading-relaxed text-[color:var(--text-muted)]">
+                Select a project from the portfolio control center.
               </p>
             </div>
-            <div className="rounded-xl border border-slate-200 bg-slate-50 p-5">
-              <p className="text-sm font-semibold text-slate-900">3. Review Model</p>
-              <p className="mt-2 text-sm text-slate-600">
-                Inspect geometry and element properties in read-only mode.
+            <div className="rounded-[var(--radius-md)] border border-[color:var(--border-subtle)] bg-[color:var(--surface-muted)] p-[length:var(--card-padding-loose)]">
+              <p className="text-[length:var(--text-sm)] font-bold text-[color:var(--text)]">3. Review model</p>
+              <p className="mt-2 text-[length:var(--text-sm)] leading-relaxed text-[color:var(--text-muted)]">
+                Inspect geometry and properties in read-only mode.
               </p>
             </div>
           </div>
         </Card>
       </PageContainer>
 
-      <PageContainer className="pb-12">
-        <Card className="flex flex-col items-start justify-between gap-5 p-8 md:flex-row md:items-center">
+      <PageContainer className="pb-[length:var(--space-8)]">
+        <Card className="flex flex-col items-start justify-between gap-[length:var(--space-4)] border-[color:var(--border-subtle)] p-[length:var(--space-5)] md:flex-row md:items-center md:p-[length:var(--space-6)]">
           <div>
-            <h2 className="text-2xl font-semibold tracking-tight text-slate-900">
-              Ready to preview your BIM workspace?
-            </h2>
-            <p className="mt-2 text-sm text-slate-600">
-              Use the demo login and browse projects in a realistic product layout.
+            <h2 className="text-heading-md">Ready to walk the workspace?</h2>
+            <p className="mt-2 text-[length:var(--text-sm)] text-[color:var(--text-muted)]">
+              Use the demo login and browse projects in the full application shell.
             </p>
           </div>
-          <Button href="/login" variant="primary" className="px-5">
-            Open Demo App
+          <Button href="/login" variant="primary" size="md" className="px-4">
+            Open demo app
           </Button>
         </Card>
       </PageContainer>
 
-      <footer className="border-t border-slate-200 bg-white">
-        <div className="app-shell flex flex-wrap items-center justify-between gap-3 py-5 text-sm text-slate-500">
-          <p>My Revit Viewer</p>
-          <p>Read-only BIM review for AEC teams</p>
+      <footer className="border-t border-[color:var(--border)] bg-[color:var(--surface)]">
+        <div className="shell-content flex flex-wrap items-center justify-between gap-[length:var(--layout-inline-gap)] py-[length:var(--space-3)] text-[length:var(--text-sm)] text-[color:var(--text-muted)]">
+          <p className="font-semibold text-[color:var(--text)]">My Revit Viewer</p>
+          <p>Read-only BIM / GIS review for AEC and infrastructure teams</p>
         </div>
       </footer>
     </main>

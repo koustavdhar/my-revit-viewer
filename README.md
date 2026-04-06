@@ -25,7 +25,7 @@ Then open `http://localhost:3000` (or the port shown in terminal).
 
 - Project list and project metadata (`src/features/projects/mock-projects.ts`)
 - Viewer model tree and property inspection data (`src/components/viewer/dummy-data.ts`)
-- Toolbar actions are UI-only (not yet bound to real camera/selection SDK actions)
+- Top viewer toolbar actions remain UI-only (BIM fit/isolate/reset are wired to the IFC viewport)
 - Auth is frontend-only demo auth (not production secure)
 
 ## What is real right now
@@ -34,7 +34,15 @@ Then open `http://localhost:3000` (or the port shown in terminal).
 - Responsive dashboard/detail/viewer layouts
 - Route protection behavior in middleware
 - Speckle integration attempt and runtime fallback behavior
+- **BIM IFC viewport** (That Open + `web-ifc`): load, pick, properties, fit / isolate / reset — see **`docs/bim-local-testing.md`** for local sample file location and testing
 - Production build and lint checks
+
+### BIM / IFC quick test
+
+- **Dev sample path:** add your own `public/bim/sample.ifc` (not committed). In `npm run dev`, projects **without** an IFC URL still try to load `/bim/sample.ifc` so you can test without editing mock data.
+- **Project-driven URL:** set `ifcUrl` or an IFC `sourceFiles[].url` (see `mock-projects.ts`).
+- **Docs:** **`docs/bim-local-testing.md`** — swap sample, env flag `NEXT_PUBLIC_BIM_DISABLE_DEV_SAMPLE`, empty/loading/error states.
+- **Combined mode:** BIM + GIS in one workspace (see **`docs/combined-review-mode.md`**) — shared toolbar and panels; alignment is **prototype-only** until georeferencing is implemented.
 
 ## Folder structure (scaling-focused)
 
