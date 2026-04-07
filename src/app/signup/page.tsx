@@ -49,8 +49,11 @@ export default function SignupPage() {
     event.preventDefault();
     if (!validate()) return;
 
-    document.cookie = "demo_auth=1; path=/; max-age=2592000; samesite=lax";
-    router.push("/dashboard");
+    void (async () => {
+      const res = await fetch("/api/demo-auth", { method: "POST" });
+      if (!res.ok) return;
+      router.push("/dashboard");
+    })();
   }
 
   return (

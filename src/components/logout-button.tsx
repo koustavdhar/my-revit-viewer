@@ -7,8 +7,10 @@ export default function LogoutButton() {
   const router = useRouter();
 
   function handleLogout() {
-    document.cookie = "demo_auth=; path=/; max-age=0; samesite=lax";
-    router.push("/login");
+    void (async () => {
+      await fetch("/api/demo-auth", { method: "DELETE" });
+      router.push("/login");
+    })();
   }
 
   return (
